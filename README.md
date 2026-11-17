@@ -5,7 +5,8 @@ A guided Kriya meditation timer for your phone. The full session is one audio tr
 **Use it:** open the GitHub Pages link on your phone → Share → *Add to Home Screen*. It works offline after the first load and keeps playing with the screen locked.
 
 ## Session (≈35 min)
-1. Butterfly – opening, then 2:00
+0. Preparation – opening script with breath pauses, then a short chant (~26 s)
+1. Butterfly – pose guidance, then 2:00
 2. Rock the Baby – left leg 2:00, right leg 2:00
 3. Cat Cow – guided round, then 1:30
 4. Circular Breathing – 8:00 (chime at halfway)

@@ -99,6 +99,7 @@ def clip_with_pauses(name, at, extra):
 # Mid-points of the pauses after "breath in…", "let your body relax", "another deep breath in…",
 # "relax even more" in the opening clip: 3 s more time for each breath.
 OPENING_BREATH_PAUSES = [8.93, 12.88, 15.45, 19.35]
+OPENING_SPLIT = 26.93   # mid-pause between "...in this moment." and "We'll begin with butterfly pose"
 
 def timed(s, seconds, halfway=False, end_bell=True):
     """A practice period: bell rings at the start, optional halfway chime, bell at the end."""
@@ -142,8 +143,21 @@ def build():
     s = Session()
     s.add(silence(2.0))
 
-    s.section("Butterfly", "Arriving, then gently flutter the knees")
-    s.phase("voice", "Settling in", lambda: s.add(clip_with_pauses("c01_open_butterfly.mp3", OPENING_BREATH_PAUSES, 3.0)))
+    # The opening clip is split at the pause after "...in this moment." (26.93 s):
+    # the first part opens Preparation, the rest ("We'll begin with butterfly pose...") opens Butterfly.
+    opening = clip_with_pauses("c01_open_butterfly.mp3", OPENING_BREATH_PAUSES, 3.0)
+    split = int((OPENING_SPLIT + 3.0 * len(OPENING_BREATH_PAUSES)) * SR)
+
+    s.section("Preparation", "Arriving, breathing, chanting")
+    s.phase("voice", "Settling in", lambda: (s.add(opening[:split]), s.add(silence(1.5))))
+    def prep_chant():
+        s.add(load(os.path.join(CLIPS, "chant_prep.m4a"), normalize_lufs=-21.0))
+        s.timer_end = s.t
+        s.add(silence(2.5))
+    s.phase("practice", "Chanting", prep_chant)
+
+    s.section("Butterfly", "Gently flutter the knees")
+    s.phase("voice", "Guidance", lambda: s.add(opening[split:]))
     s.phase("practice", "Butterfly", lambda: timed(s, 120))
 
     s.section("Rock the Baby", "Left leg, then right leg")
