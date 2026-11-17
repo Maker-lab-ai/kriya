@@ -9,18 +9,18 @@ const CORE_FILES = ['./', 'index.html', 'timeline.json', 'manifest.webmanifest',
 
 const fresh = url => new Request(url, { cache: 'reload' });   // bypass the HTTP cache
 
-// Cache every voice's current audio so switching voice also works offline.
-async function cacheCurrentAudio() {
-  const tl = await (await fetch(fresh('timeline.json'))).json();
-  const list = (tl.voices || [tl]).map(v => new URL(v.audio, self.registration.scope).href);
+// Save the chosen sessions for offline use; keep other current versions if already saved; drop stale ones.
+async function cacheAudio(urls, valid) {
+  const abs = u => new URL(u, self.registration.scope).href;
+  const want = urls.map(abs), keep = new Set(valid.map(abs));
   const cache = await caches.open(AUDIO_CACHE);
-  for (const url of list) {
+  for (const url of want) {
     if (!(await cache.match(url))) {
       const res = await fetch(fresh(url));
       if (res.ok) await cache.put(url, res);
     }
   }
-  for (const req of await cache.keys()) if (!list.includes(req.url)) await cache.delete(req);
+  for (const req of await cache.keys()) if (!keep.has(req.url)) await cache.delete(req);
 }
 
 self.addEventListener('install', e => {
@@ -31,11 +31,10 @@ self.addEventListener('activate', e => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (k !== CORE && k !== AUDIO_CACHE) await caches.delete(k);
     await self.clients.claim();
-    cacheCurrentAudio().catch(() => {});
   })());
 });
 
-self.addEventListener('message', e => { if (e.data === 'cache-audio') e.waitUntil(cacheCurrentAudio().catch(() => {})); });
+self.addEventListener('message', e => { if (e.data && e.data.type === 'cache') e.waitUntil(cacheAudio(e.data.urls, e.data.valid).catch(() => {})); });
 
 async function rangeResponse(req, cached) {
   const buf = await cached.arrayBuffer();

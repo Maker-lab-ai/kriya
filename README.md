@@ -1,4 +1,6 @@
-# Kriya timer
+# Meditations (Kriya timer)
+
+A home screen lists the meditations; each opens its own player. Currently: **Kriya** and **Sleep Manifestation**.
 
 A guided Kriya meditation timer for your phone. The full session is one audio track (voice guidance, bells and timed silences), and the app shows the current step, a countdown, and the step list.
 
@@ -26,3 +28,8 @@ cd build && python3 build.py
 ```
 
 This rewrites `audio/session.mp3` and `timeline.json` (which carries a content-hashed audio URL), so installed copies pick up the change automatically.
+
+## Sleep Manifestation
+Script in `build/sleep_script.json` (line id, text, pause after). Recorded phrase by phrase in Proctor's voice (`build/clips/sleep-proctor/`). Three tracks are rendered with different background sounds — rain, waves, silence — from `build/ambience.py` (procedural, no samples). After "Sleep well" the sound holds 2 minutes, then fades to silence over 3.
+
+Build just one meditation: `python3 build.py sleep` or `python3 build.py kriya`.

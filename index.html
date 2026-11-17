@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kriya</title>
+<title>Meditations</title>
 <meta name="theme-color" content="#14122b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -14,42 +14,70 @@
 <link rel="icon" href="icons/icon-192.png">
 <style>
   :root {
-    --bg: #14122b; --bg2: #1d1a3b; --ink: #f1ece2; --muted: #a59fbf; --dim: #6c6690;
+    --bg: #14122b; --ink: #f1ece2; --muted: #a59fbf; --dim: #6c6690;
     --gold: #e6c27a; --gold-soft: rgba(230,194,122,.18); --line: rgba(255,255,255,.08);
+    --glow-top: #2a2552;
+  }
+  body.sleep {
+    --bg: #090a17; --ink: #b9bdd8; --muted: #7a7fa3; --dim: #4a4e6e;
+    --gold: #9aa6d9; --gold-soft: rgba(154,166,217,.12); --line: rgba(255,255,255,.06);
+    --glow-top: #141831;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html { background: var(--bg); }
-  html, body { margin: 0; height: 100%; }
+  html, body { margin: 0; min-height: 100%; }
   body {
-    background: radial-gradient(120% 80% at 50% 0%, #2a2552 0%, var(--bg) 60%) fixed;
+    background: radial-gradient(120% 80% at 50% 0%, var(--glow-top) 0%, var(--bg) 60%) fixed;
     color: var(--ink); font: 16px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    display: flex; flex-direction: column; min-height: 100%;
     padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-    user-select: none; -webkit-user-select: none;
+    user-select: none; -webkit-user-select: none; transition: background-color .4s;
   }
-  main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 22px 12px; max-width: 520px; width: 100%; margin: 0 auto; }
+  main { display: flex; flex-direction: column; align-items: center; padding: 22px 22px 12px; max-width: 520px; width: 100%; margin: 0 auto; }
+  [hidden] { display: none !important; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+  /* ---------- list ---------- */
+  .list-head { width: 100%; margin: 18px 0 18px; }
+  .list-head h1 { font-weight: 300; font-size: 32px; margin: 4px 0 0; }
   .eyebrow { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
-  h1 { font-weight: 300; font-size: 30px; margin: 6px 0 2px; text-align: center; letter-spacing: .01em; }
+  .card { width: 100%; display: flex; gap: 16px; align-items: center; text-align: left; padding: 18px; margin: 0 0 14px;
+          border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.035); }
+  .card:active { background: rgba(255,255,255,.07); }
+  .card .art { width: 58px; height: 58px; border-radius: 14px; flex: none; display: grid; place-items: center; }
+  .card .art svg { width: 30px; height: 30px; }
+  .card.kriya .art { background: radial-gradient(circle at 50% 40%, #6b5426, #2a2147); color: #e6c27a; }
+  .card.sleep .art { background: radial-gradient(circle at 50% 40%, #2c3566, #0e1026); color: #c9d1f5; }
+  .card .t { font-size: 19px; color: var(--ink); }
+  .card .b { font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+  .card .m { font-size: 12px; color: var(--dim); margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .card .m .resume { color: var(--gold); }
+
+  /* ---------- player ---------- */
+  .topbar { width: 100%; display: flex; align-items: center; margin: -6px 0 10px; }
+  .back { color: var(--muted); font-size: 15px; padding: 8px 8px 8px 0; display: flex; align-items: center; gap: 4px; }
+  .back svg { width: 20px; height: 20px; fill: currentColor; }
+  h1.title { font-weight: 300; font-size: 30px; margin: 6px 0 2px; text-align: center; letter-spacing: .01em; }
   .sub { color: var(--muted); font-size: 15px; text-align: center; min-height: 21px; }
 
-  .ring { position: relative; width: min(72vw, 300px); aspect-ratio: 1; margin: 26px 0 18px; }
+  .ring { position: relative; width: min(72vw, 300px); aspect-ratio: 1; margin: 22px 0 16px; }
   .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
   .ring circle { fill: none; stroke-width: 5; }
   .ring .track { stroke: var(--line); }
-  .ring .fill { stroke: var(--gold); stroke-linecap: round; transition: stroke-dashoffset .4s linear, opacity .4s; }
+  .ring .fill { stroke: var(--gold); stroke-linecap: round; transition: stroke-dashoffset .4s linear; }
   .ring .glow { position: absolute; inset: 14%; border-radius: 50%; background: radial-gradient(circle, var(--gold-soft), transparent 70%); animation: breathe 8s ease-in-out infinite; }
+  body.sleep .ring .glow { animation-duration: 12s; }
   .paused .ring .glow { animation-play-state: paused; }
   @keyframes breathe { 0%,100% { transform: scale(.82); opacity: .55 } 50% { transform: scale(1.05); opacity: 1 } }
   .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .time { font-size: clamp(48px, 15vw, 64px); font-weight: 200; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+  body.sleep .time { font-size: clamp(38px, 12vw, 50px); }
   .phase { color: var(--gold); font-size: 15px; margin-top: 2px; min-height: 20px; }
-  .listen { font-size: 22px; font-weight: 300; color: var(--ink); }
+  .listen { font-size: 22px !important; font-weight: 300; }
 
   .controls { display: flex; align-items: center; gap: 28px; margin: 4px 0 18px; }
-  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
   .icon-btn { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: var(--muted); }
   .icon-btn:active { background: var(--line); }
-  .play { width: 76px; height: 76px; border-radius: 50%; background: var(--gold); color: #1b1733; display: grid; place-items: center; box-shadow: 0 8px 30px rgba(230,194,122,.25); }
+  .play { width: 76px; height: 76px; border-radius: 50%; background: var(--gold); color: #1b1733; display: grid; place-items: center; box-shadow: 0 8px 30px var(--gold-soft); }
   .play:active { transform: scale(.96); }
   svg.i { width: 26px; height: 26px; fill: currentColor; }
   .play svg.i { width: 32px; height: 32px; }
@@ -57,6 +85,13 @@
   .overall { width: 100%; display: flex; align-items: center; gap: 10px; color: var(--dim); font-size: 12px; font-variant-numeric: tabular-nums; }
   .bar { flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
   .bar > div { height: 100%; width: 0; background: var(--muted); }
+
+  .pick { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; color: var(--dim); font-size: 13px; flex-wrap: wrap; justify-content: center; }
+  .pick button { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
+  .pick button.on { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+  .restart { margin: 16px 0 0; padding: 8px 18px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
+  .restart:active { background: var(--line); }
+  .restart.armed { border-color: var(--gold); color: var(--gold); }
 
   ol.steps { list-style: none; padding: 0; margin: 22px 0 0; width: 100%; border-top: 1px solid var(--line); }
   ol.steps li { display: flex; align-items: center; gap: 14px; padding: 13px 4px; border-bottom: 1px solid var(--line); color: var(--muted); cursor: pointer; }
@@ -67,20 +102,28 @@
   ol.steps li.done .n { background: var(--dim); color: var(--bg); border-color: var(--dim); }
   ol.steps li.now { color: var(--ink); }
   ol.steps li.now .n { border-color: var(--gold); color: var(--gold); }
-  .voices { display: flex; align-items: center; gap: 8px; margin: 16px 0 0; color: var(--dim); font-size: 13px; }
-  .voices button { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
-  .voices button.on { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
-  .restart { margin: 14px 0 0; padding: 8px 18px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
-  .restart:active { background: var(--line); }
-  .restart.armed { border-color: var(--gold); color: var(--gold); }
   .note { color: var(--dim); font-size: 12px; text-align: center; margin: 18px 0 6px; }
-  .loading { color: var(--muted); margin-top: 40px; }
 </style>
 </head>
 <body class="paused">
-<main>
-  <div class="eyebrow" id="eyebrow">Kriya</div>
-  <h1 id="title">Kriya Meditation</h1>
+
+<!-- ================= LIST ================= -->
+<main id="listView">
+  <div class="list-head">
+    <div class="eyebrow">Your practice</div>
+    <h1>Meditations</h1>
+  </div>
+  <div id="cards" style="width:100%"><div class="note">Loading…</div></div>
+  <div class="note" id="version"></div>
+</main>
+
+<!-- ================= PLAYER ================= -->
+<main id="playerView" hidden>
+  <div class="topbar">
+    <button class="back" id="back"><svg viewBox="0 0 24 24"><path d="M15.4 5.4 14 4l-8 8 8 8 1.4-1.4L8.8 12z"/></svg>Meditations</button>
+  </div>
+  <div class="eyebrow" id="eyebrow"></div>
+  <h1 class="title" id="title"></h1>
   <div class="sub" id="subtitle"></div>
 
   <div class="ring">
@@ -111,12 +154,12 @@
     <span id="elapsed">0:00</span><div class="bar"><div id="bar"></div></div><span id="total">--:--</span>
   </div>
 
-  <div class="voices" id="voices" hidden><span>Voice</span></div>
-  <button class="restart" id="restart">↺ Restart Kriya</button>
+  <div class="pick" id="voices" hidden></div>
+  <div class="pick" id="ambients" hidden></div>
+  <button class="restart" id="restart">↺ Restart</button>
 
-  <ol class="steps" id="steps"><li class="loading">Loading…</li></ol>
+  <ol class="steps" id="steps"></ol>
   <div class="note">Audio keeps playing with the screen locked. Tap a step to jump to it.</div>
-  <div class="note" id="version"></div>
 </main>
 
 <audio id="audio" preload="auto"></audio>
@@ -126,9 +169,125 @@ const $ = id => document.getElementById(id);
 const audio = $('audio');
 const CIRC = 339.29;
 const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
-let T = null, lastSec = -1, lastSaved = 0;
-
+const ICONS = {
+  kriya: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c1.6 2 2.4 4 2.4 6 0 1.5-.5 2.8-1.3 3.9 1.9-1.4 4.4-2 6.9-1.7-.5 2.5-2 4.6-4.1 5.8 1.3.1 2.6.5 3.7 1.2C17.7 20.3 15 21 12 21s-5.7-.7-7.6-2.8c1.1-.7 2.4-1.1 3.7-1.2-2.1-1.2-3.6-3.3-4.1-5.8 2.5-.3 5 .3 6.9 1.7-.8-1.1-1.3-2.4-1.3-3.9 0-2 .8-4 2.4-6z"/></svg>',
+  sleep: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 2.5a8.5 8.5 0 1 0 7 13.3A9.5 9.5 0 0 1 14.5 2.5z"/><circle cx="18" cy="5" r="1"/><circle cx="21" cy="9" r=".7"/></svg>'
+};
 const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+};
+
+let TL = null;      // whole timeline
+let M = null;       // current meditation
+let T = null;       // current voice track: {id, name, audio, duration, sections, src}
+let ambId = null, lastSi = -1, lastSec = -1, lastSaved = 0;
+
+// one-time migration of the old single-meditation settings
+(function migrate() {
+  try {
+    const v = localStorage.getItem('kriya-voice'), p = localStorage.getItem('kriya-pos');
+    if (v && !localStorage.getItem('med:kriya:voice')) store.set('med:kriya:voice', v);
+    if (p && !localStorage.getItem('med:kriya:pos')) { const o = JSON.parse(p); if (o && o.v) store.set('med:kriya:pos', o); }
+    localStorage.removeItem('kriya-voice'); localStorage.removeItem('kriya-pos');
+  } catch (e) {}
+})();
+
+/* ---------------- list ---------------- */
+function renderList() {
+  $('cards').innerHTML = TL.meditations.map(m => {
+    const v = m.voices[0], mins = Math.round(v.duration / 60);
+    const pos = store.get(`med:${m.id}:pos`);
+    const resume = pos && pos.t > 5 ? ` · <span class="resume">Continue at ${fmt(pos.t)}</span>` : '';
+    return `<button class="card ${m.style}" data-id="${m.id}"><span class="art">${ICONS[m.style] || ICONS.kriya}</span>
+      <span><div class="t">${m.title}</div><div class="b">${m.blurb || ''}</div><div class="m">${mins} min${resume}</div></span></button>`;
+  }).join('');
+  $('cards').querySelectorAll('.card').forEach(c => c.onclick = () => { location.hash = c.dataset.id; });
+}
+
+/* ---------------- routing ---------------- */
+function route() {
+  if (!TL) return;
+  const id = location.hash.replace('#', '');
+  const m = TL.meditations.find(x => x.id === id);
+  if (!m) {
+    if (M) { savePos(); audio.pause(); }
+    M = null; T = null;
+    document.body.className = 'paused';
+    $('playerView').hidden = true; $('listView').hidden = false;
+    document.title = 'Meditations';
+    renderList();
+    return;
+  }
+  if (M && M.id === m.id) return;
+  if (M) { savePos(); audio.pause(); }
+  openMeditation(m);
+}
+window.addEventListener('hashchange', route);
+$('back').onclick = () => { location.hash = ''; };
+
+/* ---------------- player ---------------- */
+function srcFor(v) { return typeof v.audio === 'string' ? v.audio : (v.audio[ambId] || Object.values(v.audio)[0]); }
+
+function openMeditation(m) {
+  M = m; T = null; lastSi = -1;
+  document.body.className = (m.style === 'sleep' ? 'sleep ' : '') + 'paused';
+  $('listView').hidden = true; $('playerView').hidden = false;
+  document.title = m.title;
+  window.scrollTo(0, 0);
+  ambId = m.ambients ? (store.get(`med:${m.id}:amb`) || m.ambients[0].id) : null;
+  const pos = store.get(`med:${m.id}:pos`);
+  select(store.get(`med:${m.id}:voice`), false);
+  if (pos && pos.v === T.id && pos.t > 5 && pos.t < T.duration - 20) seek(pos.t, false);
+  renderPickers();
+  cacheSelected();
+}
+
+// switch voice and/or ambience; keepPlace keeps you at the same moment
+function select(voiceId, keepPlace) {
+  const v = M.voices.find(x => x.id === voiceId) || M.voices[0];
+  let target = 0; const wasPlaying = !audio.paused;
+  if (keepPlace && T) {
+    const t = audio.currentTime;
+    if (v.id === T.id) target = t;                         // same voice, different sound: identical timing
+    else {
+      const { si, pi, ph } = where(t);
+      const nph = v.sections[si] && v.sections[si].phases[pi];
+      if (nph) target = nph.start + Math.min(t - ph.start, Math.max(0, nph.end - nph.start - 0.5));
+    }
+  }
+  T = Object.assign({ om: M.om }, v);
+  store.set(`med:${M.id}:voice`, v.id);
+  if (ambId) store.set(`med:${M.id}:amb`, ambId);
+  audio.pause();
+  audio.src = srcFor(v);
+  lastSi = -1;
+  renderSteps();
+  seek(target, keepPlace && wasPlaying);
+  renderPickers();
+}
+
+function renderPickers() {
+  const vbox = $('voices'), abox = $('ambients');
+  vbox.hidden = M.voices.length < 2;
+  vbox.innerHTML = '<span>Voice</span>';
+  M.voices.forEach(v => {
+    const b = document.createElement('button'); b.textContent = v.name;
+    if (T && T.id === v.id) b.className = 'on';
+    b.onclick = () => { if (T.id !== v.id) { select(v.id, true); cacheSelected(); } };
+    vbox.appendChild(b);
+  });
+  abox.hidden = !M.ambients;
+  abox.innerHTML = '<span>Sound</span>';
+  (M.ambients || []).forEach(a => {
+    const b = document.createElement('button'); b.textContent = a.name;
+    if (ambId === a.id) b.className = 'on';
+    b.onclick = () => { if (ambId !== a.id) { ambId = a.id; select(T.id, true); cacheSelected(); } };
+    abox.appendChild(b);
+  });
+}
 
 function where(t) {
   const secs = T.sections;
@@ -139,7 +298,6 @@ function where(t) {
   for (let i = 0; i < ph.length; i++) if (t >= ph[i].start) pi = i;
   return { si, pi, sec: secs[si], ph: ph[pi] };
 }
-
 function sectionEnd(i) { return i + 1 < T.sections.length ? T.sections[i + 1].start : T.duration; }
 
 function renderSteps() {
@@ -151,44 +309,48 @@ function renderSteps() {
   $('total').textContent = fmt(T.duration);
 }
 
-let lastSi = -1;
 function update() {
   if (!T) return;
   const t = audio.currentTime;
-  const { si, pi, sec, ph } = where(t);
+  const { si, sec, ph } = where(t);
+  const sleep = M.style === 'sleep';
 
   if (si !== lastSi) {
     lastSi = si;
-    $('eyebrow').textContent = `Step ${si + 1} of ${T.sections.length}`;
+    $('eyebrow').textContent = sleep ? M.title : `Step ${si + 1} of ${T.sections.length}`;
     $('title').textContent = sec.title;
-    $('subtitle').textContent = sec.subtitle;
+    $('subtitle').textContent = sec.subtitle || '';
     $('steps').querySelectorAll('li').forEach((li, i) => li.className = i < si ? 'done' : i === si ? 'now' : '');
     if ('mediaSession' in navigator)
-      navigator.mediaSession.metadata = new MediaMetadata({ title: sec.title, artist: 'Kriya', album: `Step ${si + 1} of ${T.sections.length}`,
+      navigator.mediaSession.metadata = new MediaMetadata({ title: sec.title, artist: M.title,
         artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
   }
 
-  let timeTxt, phaseTxt, frac;
-  if (ph.timerEnd) {
+  let timeTxt, phaseTxt, frac, listen = false;
+  if (sleep) {
+    // calm display: time left in the whole session, ring = overall progress
+    timeTxt = fmt(T.duration - t);
+    phaseTxt = ph.kind === 'fade' ? 'Fading out' : 'remaining';
+    frac = t / T.duration;
+  } else if (ph.timerEnd) {
     const total = ph.timerEnd - ph.start, left = ph.timerEnd - t;
     timeTxt = fmt(left);
     frac = Math.min(1, Math.max(0, (t - ph.start) / total));
     phaseTxt = ph.label;
     (ph.cues || []).forEach(c => { if (t >= c.at) phaseTxt = c.label; });
-    if (ph.kind === 'om') {
+    if (ph.kind === 'om' && T.om) {
       const cyc = T.om.len + T.om.gap;
-      const k = Math.min(T.om.count, Math.floor((t - ph.start) / cyc) + 1);
-      phaseTxt = `Om ${k} of ${T.om.count}`;
+      phaseTxt = `Om ${Math.min(T.om.count, Math.floor((t - ph.start) / cyc) + 1)} of ${T.om.count}`;
     }
     if (left <= 0) { timeTxt = '0:00'; frac = 1; }
-    $('time').classList.remove('listen');
   } else {
     timeTxt = ph.kind === 'end' ? 'Namaste' : 'Listen';
     phaseTxt = ph.kind === 'end' ? '' : ph.label;
     frac = ph.kind === 'end' ? 1 : 0;
-    $('time').classList.add('listen');
+    listen = true;
   }
   $('time').textContent = timeTxt;
+  $('time').classList.toggle('listen', listen);
   $('phase').textContent = phaseTxt;
   $('arc').style.strokeDashoffset = CIRC * (1 - frac);
   $('bar').style.width = (100 * t / T.duration) + '%';
@@ -197,28 +359,29 @@ function update() {
   const s = Math.floor(t);
   if (s !== lastSec) {
     lastSec = s;
-    if (Date.now() - lastSaved > 3000) { lastSaved = Date.now(); try { localStorage.setItem('kriya-pos', JSON.stringify({ v: T.id, t })); } catch (e) {} }
+    if (Date.now() - lastSaved > 3000) { lastSaved = Date.now(); savePos(); }
     if ('mediaSession' in navigator && navigator.mediaSession.setPositionState && audio.duration)
       try { navigator.mediaSession.setPositionState({ duration: audio.duration, position: t, playbackRate: 1 }); } catch (e) {}
   }
 }
+function savePos() { if (M && T) store.set(`med:${M.id}:pos`, { v: T.id, t: audio.currentTime }); }
 
 function seek(t, andPlay) {
   const go = () => { audio.currentTime = t; update(); if (andPlay) audio.play(); };
-  if (audio.readyState >= 1) go(); else audio.addEventListener('loadedmetadata', go, { once: true }), audio.load();
+  if (audio.readyState >= 1) go(); else { audio.addEventListener('loadedmetadata', go, { once: true }); audio.load(); }
 }
-
 function toggle() { audio.paused ? audio.play() : audio.pause(); }
 function nextSection() { if (!T) return; const { si } = where(audio.currentTime); if (si + 1 < T.sections.length) seek(T.sections[si + 1].start, !audio.paused); }
 function restartSection() {
   if (!T) return;
   const t = audio.currentTime, { si, sec } = where(t);
-  // tap once = start of this section; tap again within 3s = previous section
   const target = (t - sec.start < 3 && si > 0) ? T.sections[si - 1].start : sec.start;
   seek(target, !audio.paused);
 }
 
 $('play').onclick = toggle;
+$('next').onclick = nextSection;
+$('prev').onclick = restartSection;
 
 // Restart: tap once to arm, tap again within 3 s to go back to the very beginning
 let armTimer = null;
@@ -226,23 +389,21 @@ $('restart').onclick = () => {
   const b = $('restart');
   if (!b.classList.contains('armed')) {
     b.classList.add('armed'); b.textContent = 'Tap again to restart';
-    armTimer = setTimeout(() => { b.classList.remove('armed'); b.textContent = '↺ Restart Kriya'; }, 3000);
+    armTimer = setTimeout(() => { b.classList.remove('armed'); b.textContent = '↺ Restart'; }, 3000);
     return;
   }
   clearTimeout(armTimer);
-  b.classList.remove('armed'); b.textContent = '↺ Restart Kriya';
-  try { localStorage.removeItem('kriya-pos'); } catch (e) {}
+  b.classList.remove('armed'); b.textContent = '↺ Restart';
+  store.del(`med:${M.id}:pos`);
   lastSi = -1;
   seek(0, true);
 };
-$('next').onclick = nextSection;
-$('prev').onclick = restartSection;
 
 audio.addEventListener('play', () => { document.body.classList.remove('paused'); $('playIcon').innerHTML = PAUSE; $('play').setAttribute('aria-label', 'Pause'); });
-audio.addEventListener('pause', () => { document.body.classList.add('paused'); $('playIcon').innerHTML = PLAY; $('play').setAttribute('aria-label', 'Play'); });
+audio.addEventListener('pause', () => { document.body.classList.add('paused'); $('playIcon').innerHTML = PLAY; $('play').setAttribute('aria-label', 'Play'); savePos(); });
 audio.addEventListener('timeupdate', update);
 audio.addEventListener('seeked', update);
-audio.addEventListener('ended', () => { try { localStorage.removeItem('kriya-pos'); } catch (e) {} });
+audio.addEventListener('ended', () => { if (M) store.del(`med:${M.id}:pos`); });
 
 if ('mediaSession' in navigator) {
   const ms = navigator.mediaSession;
@@ -251,64 +412,44 @@ if ('mediaSession' in navigator) {
   try { ms.setActionHandler('nexttrack', nextSection); ms.setActionHandler('previoustrack', restartSection); } catch (e) {}
   try { ms.setActionHandler('seekto', d => seek(d.seekTime, !audio.paused)); } catch (e) {}
 }
-
-// smooth countdown while playing (timeupdate only fires ~4x/sec)
 (function loop() { if (!audio.paused) update(); requestAnimationFrame(loop); })();
 
-let TL = null;
-function useVoice(id, keepPlace) {
-  const v = TL.voices.find(x => x.id === id) || TL.voices[0];
-  let target = 0, wasPlaying = !audio.paused;
-  if (keepPlace && T) {
-    // keep your place: same step and phase, same time into the phase
-    const t = audio.currentTime, { si, pi, ph } = where(t);
-    const nph = v.sections[si] && v.sections[si].phases[pi];
-    if (nph) target = nph.start + Math.min(t - ph.start, Math.max(0, nph.end - nph.start - 0.5));
-  }
-  T = Object.assign({ om: TL.om }, v);
-  try { localStorage.setItem('kriya-voice', v.id); } catch (e) {}
-  audio.pause();
-  audio.src = v.audio;
-  lastSi = -1;
-  renderSteps();
-  seek(target, keepPlace && wasPlaying);
-  renderVoices();
+/* ---------------- offline ---------------- */
+// Save the sessions you've chosen for offline use; drop stale versions.
+function allUrls() {
+  const out = [];
+  TL.meditations.forEach(m => m.voices.forEach(v => typeof v.audio === 'string' ? out.push(v.audio) : out.push(...Object.values(v.audio))));
+  return out;
 }
-function renderVoices() {
-  const box = $('voices');
-  if (!TL || TL.voices.length < 2) return;
-  box.hidden = false;
-  box.querySelectorAll('button').forEach(b => b.remove());
-  TL.voices.forEach(v => {
-    const b = document.createElement('button');
-    b.textContent = v.name;
-    if (T && T.id === v.id) b.className = 'on';
-    b.onclick = () => { if (T.id !== v.id) useVoice(v.id, true); };
-    box.appendChild(b);
+function selectedUrls() {
+  return TL.meditations.map(m => {
+    const v = m.voices.find(x => x.id === store.get(`med:${m.id}:voice`)) || m.voices[0];
+    if (typeof v.audio === 'string') return v.audio;
+    const a = store.get(`med:${m.id}:amb`) || m.ambients[0].id;
+    return v.audio[a];
   });
 }
+function cacheSelected() {
+  if (!('serviceWorker' in navigator) || !TL) return;
+  navigator.serviceWorker.ready.then(r => r.active && r.active.postMessage({ type: 'cache', urls: selectedUrls(), valid: allUrls() }));
+}
 
+/* ---------------- start ---------------- */
 fetch('timeline.json', { cache: 'no-cache' }).then(r => r.json()).then(tl => {
+  if (!tl.meditations) tl.meditations = [{ id: 'kriya', title: 'Kriya', style: 'kriya', om: tl.om, voices: tl.voices }];
   TL = tl;
-  if (!TL.voices) TL.voices = [{ id: 'original', name: 'Original', audio: TL.audio, duration: TL.duration, sections: TL.sections }];
   $('version').textContent = TL.built ? `Version ${TL.built}` : '';
-  let pref = null, saved = null;
-  try { pref = localStorage.getItem('kriya-voice'); saved = JSON.parse(localStorage.getItem('kriya-pos') || 'null'); } catch (e) {}
-  useVoice(pref, false);
-  renderVoices();
-  if (saved && saved.v === T.id && saved.t > 5 && saved.t < T.duration - 20) seek(saved.t, false);
-  update();
+  route();
+  cacheSelected();
 });
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => reg.update());
-  // when a new version takes over, reload (unless a session is playing)
   let reloaded = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (reloaded) return;
     if (audio.paused && audio.currentTime < 1) { reloaded = true; location.reload(); }
   });
-  navigator.serviceWorker.ready.then(r => r.active && r.active.postMessage('cache-audio'));
 }
 </script>
 </body>

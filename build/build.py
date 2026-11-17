@@ -270,27 +270,100 @@ def build_session(V, om, has_om):
         audio *= 0.98 / peak
     return audio, s.sections
 
-def build():
-    import hashlib, datetime
-    om, has_om = om_track()
+# ---------- sleep meditation ----------
+
+def build_sleep_voice(folder):
+    """Speech + timed silences for the sleep script. Returns (voice_track, sections)."""
+    import ambience  # noqa: F401  (imported here so the Kriya build doesn't need it)
+    script = json.load(open(os.path.join(HERE, "sleep_script.json")))
+    parts, t, sections = [silence(6.0)], 6.0, []          # 6 s for the ambience to fade in first
+    for sec in script["sections"]:
+        start = t
+        for line_id, _text, pause in sec["lines"]:
+            a = trimmed(os.path.join(CLIPS, folder, line_id + ".mp3"))
+            a = a * (10 ** (-2 / 20))                      # a touch softer than Kriya guidance
+            parts += [a.astype(np.float32), silence(pause)]
+            t += len(a) / SR + pause
+        sections.append({"title": sec["title"], "subtitle": "", "start": round(start, 2),
+                         "phases": [{"kind": "sleep", "label": sec["title"], "start": round(start, 2), "end": round(t, 2)}]})
+    voice_end = t
+    tail = script["tail_seconds"]
+    parts.append(silence(tail))
+    t += tail
+    sections[-1]["phases"][0]["end"] = round(voice_end, 2)
+    sections[-1]["phases"].append({"kind": "fade", "label": "Fading out", "start": round(voice_end, 2), "end": round(t, 2)})
+    return np.concatenate(parts), sections, voice_end
+
+def ambience_bed(kind, n, voice_end):
+    import ambience
+    if kind == "silence":
+        return np.zeros(n, np.float32)
+    bed = getattr(ambience, kind)(n / SR + 1)[:n].astype(np.float32) * (10 ** ({"rain": -6, "waves": -9}[kind] / 20))   # 12 dB+ under the voice
+    fi = int(6 * SR); bed[:fi] *= np.linspace(0, 1, fi) ** 2
+    # hold through the voice and the first part of the tail, then fade slowly to silence
+    fo_start = int((voice_end + 120) * SR)
+    if fo_start < n:
+        k = np.linspace(1, 0, n - fo_start)
+        bed[fo_start:] *= k ** 2
+    return bed
+
+SLEEP_VOICES = [{"id": "proctor", "name": "Proctor", "folder": "sleep-proctor"}]
+SLEEP_AMBIENTS = [{"id": "rain", "name": "Rain"}, {"id": "waves", "name": "Waves"}, {"id": "silence", "name": "Silence"}]
+
+def encode(audio, rel):
+    import hashlib
+    path = os.path.join(ROOT, rel)
+    peak = np.abs(audio).max()
+    if peak > 0.98: audio = audio * (0.98 / peak)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-",
+                    "-c:a", "libmp3lame", "-b:a", "64k", path], input=audio.astype(np.float32).tobytes(), check=True)
+    return f"{rel}?v={hashlib.md5(open(path, 'rb').read()).hexdigest()[:10]}"
+
+def build_sleep():
+    voices = []
+    for v in SLEEP_VOICES:
+        voice, sections, voice_end = build_sleep_voice(v["folder"])
+        audio = {}
+        for amb in SLEEP_AMBIENTS:
+            mix = voice + ambience_bed(amb["id"], len(voice), voice_end)
+            audio[amb["id"]] = encode(mix, f"audio/sleep-{v['id']}-{amb['id']}.mp3")
+        voices.append({"id": v["id"], "name": v["name"], "audio": audio,
+                       "duration": round(len(voice) / SR, 2), "sections": sections})
+        print(f"Sleep / {v['name']}: {len(voice)/SR/60:.1f} min (voice ends {voice_end/60:.1f} min)")
+    return {"id": "sleep", "title": "Sleep Manifestation", "style": "sleep",
+            "blurb": "Wind down, see the life you're creating, drift off with abundance affirmations.",
+            "ambients": SLEEP_AMBIENTS, "voices": voices}
+
+def build_kriya(om, has_om):
     out = []
     for v in VOICES:
         audio, sections = build_session(v["pieces"](), om, has_om)
-        rel = f"audio/session-{v['id']}.mp3"
-        path = os.path.join(ROOT, rel)
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-",
-                        "-c:a", "libmp3lame", "-b:a", "64k", path], input=audio.tobytes(), check=True)
-        digest = hashlib.md5(open(path, "rb").read()).hexdigest()[:10]
-        out.append({"id": v["id"], "name": v["name"], "audio": f"{rel}?v={digest}",
+        out.append({"id": v["id"], "name": v["name"], "audio": encode(audio, f"audio/session-{v['id']}.mp3"),
                     "duration": round(len(audio) / SR, 2), "sections": sections})
-        print(f"{v['name']}: {len(audio)/SR/60:.1f} min -> {rel}")
+        print(f"Kriya / {v['name']}: {len(audio)/SR/60:.1f} min")
+    return {"id": "kriya", "title": "Kriya", "style": "kriya",
+            "blurb": "Guided kriya: preparation, movement, breathwork, Om and bandhas.",
+            "om": {"count": OM_COUNT, "len": OM_LEN, "gap": OM_GAP, "recorded": has_om}, "voices": out}
+
+def build(only=None):
+    import datetime
+    path = os.path.join(ROOT, "timeline.json")
+    old = json.load(open(path)) if os.path.exists(path) else {}
+    meds = {m["id"]: m for m in old.get("meditations", [])}
+    if only in (None, "kriya"):
+        om, has_om = om_track()
+        meds["kriya"] = build_kriya(om, has_om)
+    if only in (None, "sleep"):
+        meds["sleep"] = build_sleep()
+    order = ["kriya", "sleep"]
+    k = meds["kriya"]
     timeline = {"built": datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%d %b %Y, %H:%M"),
-                "om": {"count": OM_COUNT, "len": OM_LEN, "gap": OM_GAP, "recorded": has_om},
-                "voices": out,
-                # first voice also at top level, for older copies of the app
-                "audio": out[0]["audio"], "duration": out[0]["duration"], "sections": out[0]["sections"]}
-    with open(os.path.join(ROOT, "timeline.json"), "w") as f:
+                "meditations": [meds[i] for i in order if i in meds],
+                # Kriya also at top level, for older copies of the app
+                "om": k["om"], "voices": k["voices"], "audio": k["voices"][0]["audio"],
+                "duration": k["voices"][0]["duration"], "sections": k["voices"][0]["sections"]}
+    with open(path, "w") as f:
         json.dump(timeline, f, indent=1)
 
 if __name__ == "__main__":
-    build()
+    build(sys.argv[1] if len(sys.argv) > 1 else None)
