@@ -67,6 +67,9 @@
   ol.steps li.done .n { background: var(--dim); color: var(--bg); border-color: var(--dim); }
   ol.steps li.now { color: var(--ink); }
   ol.steps li.now .n { border-color: var(--gold); color: var(--gold); }
+  .restart { margin: 14px 0 0; padding: 8px 18px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
+  .restart:active { background: var(--line); }
+  .restart.armed { border-color: var(--gold); color: var(--gold); }
   .note { color: var(--dim); font-size: 12px; text-align: center; margin: 18px 0 6px; }
   .loading { color: var(--muted); margin-top: 40px; }
 </style>
@@ -104,6 +107,8 @@
   <div class="overall">
     <span id="elapsed">0:00</span><div class="bar"><div id="bar"></div></div><span id="total">--:--</span>
   </div>
+
+  <button class="restart" id="restart">↺ Restart Kriya</button>
 
   <ol class="steps" id="steps"><li class="loading">Loading…</li></ol>
   <div class="note">Audio keeps playing with the screen locked. Tap a step to jump to it.</div>
@@ -210,6 +215,22 @@ function restartSection() {
 }
 
 $('play').onclick = toggle;
+
+// Restart: tap once to arm, tap again within 3 s to go back to the very beginning
+let armTimer = null;
+$('restart').onclick = () => {
+  const b = $('restart');
+  if (!b.classList.contains('armed')) {
+    b.classList.add('armed'); b.textContent = 'Tap again to restart';
+    armTimer = setTimeout(() => { b.classList.remove('armed'); b.textContent = '↺ Restart Kriya'; }, 3000);
+    return;
+  }
+  clearTimeout(armTimer);
+  b.classList.remove('armed'); b.textContent = '↺ Restart Kriya';
+  try { localStorage.removeItem('kriya-pos'); } catch (e) {}
+  lastSi = -1;
+  seek(0, true);
+};
 $('next').onclick = nextSection;
 $('prev').onclick = restartSection;
 
