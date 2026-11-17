@@ -298,7 +298,7 @@ def ambience_bed(kind, n, voice_end):
     import ambience
     if kind == "silence":
         return np.zeros(n, np.float32)
-    bed = getattr(ambience, kind)(n / SR + 1)[:n].astype(np.float32) * (10 ** ({"rain": -6, "waves": -9}[kind] / 20))   # 12 dB+ under the voice
+    bed = getattr(ambience, kind)(n / SR + 1)[:n].astype(np.float32) * (10 ** ({"rain": -6, "waves": -9}[kind] / 20)) * 0.2   # x0.2 = 20% of the earlier level (Bex, 17 Nov)
     fi = int(6 * SR); bed[:fi] *= np.linspace(0, 1, fi) ** 2
     # hold through the voice and the first part of the tail, then fade slowly to silence
     fo_start = int((voice_end + 120) * SR)
