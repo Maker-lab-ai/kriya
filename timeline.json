@@ -1,0 +1,203 @@
+{
+ "duration": 2176.14,
+ "om": {
+  "count": 21,
+  "len": 10.0,
+  "gap": 2.0,
+  "recorded": false
+ },
+ "sections": [
+  {
+   "title": "Butterfly",
+   "subtitle": "Arriving, then gently flutter the knees",
+   "start": 2.0,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Settling in",
+     "start": 2.0,
+     "end": 42.0
+    },
+    {
+     "kind": "practice",
+     "label": "Butterfly",
+     "start": 42.0,
+     "end": 166.0,
+     "timerEnd": 162.0
+    }
+   ]
+  },
+  {
+   "title": "Rock the Baby",
+   "subtitle": "Left leg, then right leg",
+   "start": 166.0,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Guidance",
+     "start": 166.0,
+     "end": 185.28
+    },
+    {
+     "kind": "practice",
+     "label": "Left leg",
+     "start": 185.28,
+     "end": 306.78,
+     "timerEnd": 305.28
+    },
+    {
+     "kind": "voice",
+     "label": "Switch legs",
+     "start": 306.78,
+     "end": 313.26
+    },
+    {
+     "kind": "practice",
+     "label": "Right leg",
+     "start": 313.26,
+     "end": 435.76,
+     "timerEnd": 431.76
+    }
+   ]
+  },
+  {
+   "title": "Cat Cow",
+   "subtitle": "With knee-to-chin and leg extensions",
+   "start": 435.76,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Guidance",
+     "start": 435.76,
+     "end": 472.8
+    },
+    {
+     "kind": "practice",
+     "label": "Cat cow",
+     "start": 472.8,
+     "end": 566.8,
+     "timerEnd": 562.8
+    }
+   ]
+  },
+  {
+   "title": "Circular Breathing",
+   "subtitle": "Continuous breath, no pauses",
+   "start": 566.8,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Guidance",
+     "start": 566.8,
+     "end": 578.32
+    },
+    {
+     "kind": "practice",
+     "label": "Circular breathing",
+     "start": 578.32,
+     "end": 1062.32,
+     "timerEnd": 1058.32
+    }
+   ]
+  },
+  {
+   "title": "Om Chanting",
+   "subtitle": "21 Oms",
+   "start": 1062.32,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Guidance",
+     "start": 1062.32,
+     "end": 1079.04
+    },
+    {
+     "kind": "om",
+     "label": "Om",
+     "start": 1079.04,
+     "end": 1333.04,
+     "timerEnd": 1331.04
+    }
+   ]
+  },
+  {
+   "title": "Flutter Breath",
+   "subtitle": "Light and quick",
+   "start": 1333.04,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Guidance",
+     "start": 1333.04,
+     "end": 1344.96
+    },
+    {
+     "kind": "practice",
+     "label": "Flutter breath",
+     "start": 1344.96,
+     "end": 1528.96,
+     "timerEnd": 1524.96
+    }
+   ]
+  },
+  {
+   "title": "Bandha Locks",
+   "subtitle": "One guided round, then rest your attention at the brow",
+   "start": 1528.96,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Guided round",
+     "start": 1528.96,
+     "end": 1579.28
+    },
+    {
+     "kind": "practice",
+     "label": "Eyebrow centre",
+     "start": 1579.28,
+     "end": 2012.96,
+     "timerEnd": 2008.96
+    }
+   ]
+  },
+  {
+   "title": "Integration",
+   "subtitle": "Silent stillness",
+   "start": 2012.96,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Guidance",
+     "start": 2012.96,
+     "end": 2023.2
+    },
+    {
+     "kind": "practice",
+     "label": "Stillness",
+     "start": 2023.2,
+     "end": 2146.2,
+     "timerEnd": 2143.2
+    }
+   ]
+  },
+  {
+   "title": "Closing",
+   "subtitle": "",
+   "start": 2146.2,
+   "phases": [
+    {
+     "kind": "voice",
+     "label": "Closing",
+     "start": 2146.2,
+     "end": 2159.64
+    },
+    {
+     "kind": "end",
+     "label": "Complete",
+     "start": 2159.64,
+     "end": 2176.14
+    }
+   ]
+  }
+ ]
+}

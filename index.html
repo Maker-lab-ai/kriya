@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kriya</title>
+<meta name="theme-color" content="#14122b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kriya">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<style>
+  :root {
+    --bg: #14122b; --bg2: #1d1a3b; --ink: #f1ece2; --muted: #a59fbf; --dim: #6c6690;
+    --gold: #e6c27a; --gold-soft: rgba(230,194,122,.18); --line: rgba(255,255,255,.08);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { background: var(--bg); }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: radial-gradient(120% 80% at 50% 0%, #2a2552 0%, var(--bg) 60%) fixed;
+    color: var(--ink); font: 16px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex; flex-direction: column; min-height: 100%;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    user-select: none; -webkit-user-select: none;
+  }
+  main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 22px 12px; max-width: 520px; width: 100%; margin: 0 auto; }
+  .eyebrow { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-weight: 300; font-size: 30px; margin: 6px 0 2px; text-align: center; letter-spacing: .01em; }
+  .sub { color: var(--muted); font-size: 15px; text-align: center; min-height: 21px; }
+
+  .ring { position: relative; width: min(72vw, 300px); aspect-ratio: 1; margin: 26px 0 18px; }
+  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 5; }
+  .ring .track { stroke: var(--line); }
+  .ring .fill { stroke: var(--gold); stroke-linecap: round; transition: stroke-dashoffset .4s linear, opacity .4s; }
+  .ring .glow { position: absolute; inset: 14%; border-radius: 50%; background: radial-gradient(circle, var(--gold-soft), transparent 70%); animation: breathe 8s ease-in-out infinite; }
+  .paused .ring .glow { animation-play-state: paused; }
+  @keyframes breathe { 0%,100% { transform: scale(.82); opacity: .55 } 50% { transform: scale(1.05); opacity: 1 } }
+  .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .time { font-size: clamp(48px, 15vw, 64px); font-weight: 200; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+  .phase { color: var(--gold); font-size: 15px; margin-top: 2px; min-height: 20px; }
+  .listen { font-size: 22px; font-weight: 300; color: var(--ink); }
+
+  .controls { display: flex; align-items: center; gap: 28px; margin: 4px 0 18px; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .icon-btn { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: var(--muted); }
+  .icon-btn:active { background: var(--line); }
+  .play { width: 76px; height: 76px; border-radius: 50%; background: var(--gold); color: #1b1733; display: grid; place-items: center; box-shadow: 0 8px 30px rgba(230,194,122,.25); }
+  .play:active { transform: scale(.96); }
+  svg.i { width: 26px; height: 26px; fill: currentColor; }
+  .play svg.i { width: 32px; height: 32px; }
+
+  .overall { width: 100%; display: flex; align-items: center; gap: 10px; color: var(--dim); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .bar { flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .bar > div { height: 100%; width: 0; background: var(--muted); }
+
+  ol.steps { list-style: none; padding: 0; margin: 22px 0 0; width: 100%; border-top: 1px solid var(--line); }
+  ol.steps li { display: flex; align-items: center; gap: 14px; padding: 13px 4px; border-bottom: 1px solid var(--line); color: var(--muted); cursor: pointer; }
+  ol.steps li .n { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--dim); display: grid; place-items: center; font-size: 12px; flex: none; }
+  ol.steps li .t { flex: 1; }
+  ol.steps li .d { font-size: 13px; color: var(--dim); font-variant-numeric: tabular-nums; }
+  ol.steps li.done { color: var(--dim); }
+  ol.steps li.done .n { background: var(--dim); color: var(--bg); border-color: var(--dim); }
+  ol.steps li.now { color: var(--ink); }
+  ol.steps li.now .n { border-color: var(--gold); color: var(--gold); }
+  .note { color: var(--dim); font-size: 12px; text-align: center; margin: 18px 0 6px; }
+  .loading { color: var(--muted); margin-top: 40px; }
+</style>
+</head>
+<body class="paused">
+<main>
+  <div class="eyebrow" id="eyebrow">Kriya</div>
+  <h1 id="title">Kriya Meditation</h1>
+  <div class="sub" id="subtitle"></div>
+
+  <div class="ring">
+    <div class="glow"></div>
+    <svg viewBox="0 0 120 120" aria-hidden="true">
+      <circle class="track" cx="60" cy="60" r="54"/>
+      <circle class="fill" id="arc" cx="60" cy="60" r="54" stroke-dasharray="339.29" stroke-dashoffset="339.29"/>
+    </svg>
+    <div class="center">
+      <div class="time" id="time">--:--</div>
+      <div class="phase" id="phase"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="icon-btn" id="prev" aria-label="Restart section">
+      <svg class="i" viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg>
+    </button>
+    <button class="play" id="play" aria-label="Play">
+      <svg class="i" id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button class="icon-btn" id="next" aria-label="Next section">
+      <svg class="i" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6h2v12h-2z"/></svg>
+    </button>
+  </div>
+
+  <div class="overall">
+    <span id="elapsed">0:00</span><div class="bar"><div id="bar"></div></div><span id="total">--:--</span>
+  </div>
+
+  <ol class="steps" id="steps"><li class="loading">Loading…</li></ol>
+  <div class="note">Audio keeps playing with the screen locked. Tap a step to jump to it.</div>
+</main>
+
+<audio id="audio" src="audio/session.mp3" preload="auto"></audio>
+
+<script>
+const $ = id => document.getElementById(id);
+const audio = $('audio');
+const CIRC = 339.29;
+const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+let T = null, lastSec = -1, lastSaved = 0;
+
+const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+
+function where(t) {
+  const secs = T.sections;
+  let si = 0;
+  for (let i = 0; i < secs.length; i++) if (t >= secs[i].start) si = i;
+  const ph = secs[si].phases;
+  let pi = 0;
+  for (let i = 0; i < ph.length; i++) if (t >= ph[i].start) pi = i;
+  return { si, pi, sec: secs[si], ph: ph[pi] };
+}
+
+function sectionEnd(i) { return i + 1 < T.sections.length ? T.sections[i + 1].start : T.duration; }
+
+function renderSteps() {
+  $('steps').innerHTML = T.sections.map((s, i) => {
+    const dur = sectionEnd(i) - s.start;
+    return `<li data-i="${i}"><span class="n">${i + 1}</span><span class="t">${s.title}</span><span class="d">${fmt(dur)}</span></li>`;
+  }).join('');
+  $('steps').querySelectorAll('li').forEach(li => li.onclick = () => seek(T.sections[+li.dataset.i].start, true));
+  $('total').textContent = fmt(T.duration);
+}
+
+let lastSi = -1;
+function update() {
+  if (!T) return;
+  const t = audio.currentTime;
+  const { si, pi, sec, ph } = where(t);
+
+  if (si !== lastSi) {
+    lastSi = si;
+    $('eyebrow').textContent = `Step ${si + 1} of ${T.sections.length}`;
+    $('title').textContent = sec.title;
+    $('subtitle').textContent = sec.subtitle;
+    $('steps').querySelectorAll('li').forEach((li, i) => li.className = i < si ? 'done' : i === si ? 'now' : '');
+    if ('mediaSession' in navigator)
+      navigator.mediaSession.metadata = new MediaMetadata({ title: sec.title, artist: 'Kriya', album: `Step ${si + 1} of ${T.sections.length}`,
+        artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
+  }
+
+  let timeTxt, phaseTxt, frac;
+  if (ph.timerEnd) {
+    const total = ph.timerEnd - ph.start, left = ph.timerEnd - t;
+    timeTxt = fmt(left);
+    frac = Math.min(1, Math.max(0, (t - ph.start) / total));
+    phaseTxt = ph.label;
+    if (ph.kind === 'om') {
+      const cyc = T.om.len + T.om.gap;
+      const k = Math.min(T.om.count, Math.floor((t - ph.start) / cyc) + 1);
+      phaseTxt = `Om ${k} of ${T.om.count}`;
+    }
+    if (left <= 0) { timeTxt = '0:00'; frac = 1; }
+    $('time').classList.remove('listen');
+  } else {
+    timeTxt = ph.kind === 'end' ? 'Namaste' : 'Listen';
+    phaseTxt = ph.kind === 'end' ? '' : ph.label;
+    frac = ph.kind === 'end' ? 1 : 0;
+    $('time').classList.add('listen');
+  }
+  $('time').textContent = timeTxt;
+  $('phase').textContent = phaseTxt;
+  $('arc').style.strokeDashoffset = CIRC * (1 - frac);
+  $('bar').style.width = (100 * t / T.duration) + '%';
+  $('elapsed').textContent = fmt(t);
+
+  const s = Math.floor(t);
+  if (s !== lastSec) {
+    lastSec = s;
+    if (Date.now() - lastSaved > 3000) { lastSaved = Date.now(); try { localStorage.setItem('kriya-pos', String(t)); } catch (e) {} }
+    if ('mediaSession' in navigator && navigator.mediaSession.setPositionState && audio.duration)
+      try { navigator.mediaSession.setPositionState({ duration: audio.duration, position: t, playbackRate: 1 }); } catch (e) {}
+  }
+}
+
+function seek(t, andPlay) {
+  const go = () => { audio.currentTime = t; update(); if (andPlay) audio.play(); };
+  if (audio.readyState >= 1) go(); else audio.addEventListener('loadedmetadata', go, { once: true }), audio.load();
+}
+
+function toggle() { audio.paused ? audio.play() : audio.pause(); }
+function nextSection() { if (!T) return; const { si } = where(audio.currentTime); if (si + 1 < T.sections.length) seek(T.sections[si + 1].start, !audio.paused); }
+function restartSection() {
+  if (!T) return;
+  const t = audio.currentTime, { si, sec } = where(t);
+  // tap once = start of this section; tap again within 3s = previous section
+  const target = (t - sec.start < 3 && si > 0) ? T.sections[si - 1].start : sec.start;
+  seek(target, !audio.paused);
+}
+
+$('play').onclick = toggle;
+$('next').onclick = nextSection;
+$('prev').onclick = restartSection;
+
+audio.addEventListener('play', () => { document.body.classList.remove('paused'); $('playIcon').innerHTML = PAUSE; $('play').setAttribute('aria-label', 'Pause'); });
+audio.addEventListener('pause', () => { document.body.classList.add('paused'); $('playIcon').innerHTML = PLAY; $('play').setAttribute('aria-label', 'Play'); });
+audio.addEventListener('timeupdate', update);
+audio.addEventListener('seeked', update);
+audio.addEventListener('ended', () => { try { localStorage.removeItem('kriya-pos'); } catch (e) {} });
+
+if ('mediaSession' in navigator) {
+  const ms = navigator.mediaSession;
+  ms.setActionHandler('play', () => audio.play());
+  ms.setActionHandler('pause', () => audio.pause());
+  try { ms.setActionHandler('nexttrack', nextSection); ms.setActionHandler('previoustrack', restartSection); } catch (e) {}
+  try { ms.setActionHandler('seekto', d => seek(d.seekTime, !audio.paused)); } catch (e) {}
+}
+
+// smooth countdown while playing (timeupdate only fires ~4x/sec)
+(function loop() { if (!audio.paused) update(); requestAnimationFrame(loop); })();
+
+fetch('timeline.json').then(r => r.json()).then(tl => {
+  T = tl;
+  renderSteps();
+  let saved = 0;
+  try { saved = parseFloat(localStorage.getItem('kriya-pos') || '0'); } catch (e) {}
+  if (saved > 5 && saved < T.duration - 20) seek(saved, false);
+  update();
+});
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
