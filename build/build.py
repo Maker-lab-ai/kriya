@@ -86,6 +86,20 @@ class Session:
 def clip(name):
     return load(os.path.join(CLIPS, name))
 
+def clip_with_pauses(name, at, extra):
+    """Insert `extra` seconds of silence at each time in `at` (mid-pause points in the clip)."""
+    a, out, prev = clip(name), [], 0
+    for t in sorted(at):
+        i = int(t * SR)
+        out += [a[prev:i], silence(extra)]
+        prev = i
+    out.append(a[prev:])
+    return np.concatenate(out)
+
+# Mid-points of the pauses after "breath in…", "let your body relax", "another deep breath in…",
+# "relax even more" in the opening clip: 3 s more time for each breath.
+OPENING_BREATH_PAUSES = [8.93, 12.88, 15.45, 19.35]
+
 def timed(s, seconds, halfway=False, end_bell=True):
     """A practice period: bell rings at the start, optional halfway chime, bell at the end."""
     start = s.t
@@ -129,7 +143,7 @@ def build():
     s.add(silence(2.0))
 
     s.section("Butterfly", "Arriving, then gently flutter the knees")
-    s.phase("voice", "Settling in", lambda: s.add(clip("c01_open_butterfly.mp3")))
+    s.phase("voice", "Settling in", lambda: s.add(clip_with_pauses("c01_open_butterfly.mp3", OPENING_BREATH_PAUSES, 3.0)))
     s.phase("practice", "Butterfly", lambda: timed(s, 120))
 
     s.section("Rock the Baby", "Left leg, then right leg")

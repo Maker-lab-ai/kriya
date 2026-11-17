@@ -1,7 +1,7 @@
 {
- "audio": "audio/session.mp3?v=d1c4a2757d",
- "built": "17 Nov 2026, 13:36",
- "duration": 2074.19,
+ "audio": "audio/session.mp3?v=9392bf2321",
+ "built": "17 Nov 2026, 13:46",
+ "duration": 2086.19,
  "om": {
   "count": 21,
   "len": 11.49,
@@ -18,150 +18,150 @@
      "kind": "voice",
      "label": "Settling in",
      "start": 2.0,
-     "end": 42.0
+     "end": 54.0
     },
     {
      "kind": "practice",
      "label": "Butterfly",
-     "start": 42.0,
-     "end": 166.0,
-     "timerEnd": 162.0
+     "start": 54.0,
+     "end": 178.0,
+     "timerEnd": 174.0
     }
    ]
   },
   {
    "title": "Rock the Baby",
    "subtitle": "Left leg, then right leg",
-   "start": 166.0,
+   "start": 178.0,
    "phases": [
     {
      "kind": "voice",
      "label": "Guidance",
-     "start": 166.0,
-     "end": 185.28
+     "start": 178.0,
+     "end": 197.28
     },
     {
      "kind": "practice",
      "label": "Left leg",
-     "start": 185.28,
-     "end": 306.78,
-     "timerEnd": 305.28
+     "start": 197.28,
+     "end": 318.78,
+     "timerEnd": 317.28
     },
     {
      "kind": "voice",
      "label": "Switch legs",
-     "start": 306.78,
-     "end": 313.26
+     "start": 318.78,
+     "end": 325.26
     },
     {
      "kind": "practice",
      "label": "Right leg",
-     "start": 313.26,
-     "end": 435.76,
-     "timerEnd": 431.76
+     "start": 325.26,
+     "end": 447.76,
+     "timerEnd": 443.76
     }
    ]
   },
   {
    "title": "Cat Cow",
    "subtitle": "With knee-to-chin and leg extensions",
-   "start": 435.76,
+   "start": 447.76,
    "phases": [
     {
      "kind": "voice",
      "label": "Guidance",
-     "start": 435.76,
-     "end": 472.8
+     "start": 447.76,
+     "end": 484.8
     },
     {
      "kind": "practice",
      "label": "Cat cow",
-     "start": 472.8,
-     "end": 566.8,
-     "timerEnd": 562.8
+     "start": 484.8,
+     "end": 578.8,
+     "timerEnd": 574.8
     }
    ]
   },
   {
    "title": "Circular Breathing",
    "subtitle": "Continuous breath, no pauses",
-   "start": 566.8,
+   "start": 578.8,
    "phases": [
     {
      "kind": "voice",
      "label": "Guidance",
-     "start": 566.8,
-     "end": 578.32
+     "start": 578.8,
+     "end": 590.32
     },
     {
      "kind": "practice",
      "label": "Circular breathing",
-     "start": 578.32,
-     "end": 1062.32,
-     "timerEnd": 1058.32
+     "start": 590.32,
+     "end": 1074.32,
+     "timerEnd": 1070.32
     }
    ]
   },
   {
    "title": "Om Chanting",
    "subtitle": "21 Oms",
-   "start": 1062.32,
+   "start": 1074.32,
    "phases": [
     {
      "kind": "voice",
      "label": "Guidance",
-     "start": 1062.32,
-     "end": 1079.04
+     "start": 1074.32,
+     "end": 1091.04
     },
     {
      "kind": "om",
      "label": "Om",
-     "start": 1079.04,
-     "end": 1364.33,
-     "timerEnd": 1362.33
+     "start": 1091.04,
+     "end": 1376.33,
+     "timerEnd": 1374.33
     }
    ]
   },
   {
    "title": "Flutter Breath",
    "subtitle": "Light and quick",
-   "start": 1364.33,
+   "start": 1376.33,
    "phases": [
     {
      "kind": "voice",
      "label": "Guidance",
-     "start": 1364.33,
-     "end": 1376.25
+     "start": 1376.33,
+     "end": 1388.25
     },
     {
      "kind": "practice",
      "label": "Flutter breath",
-     "start": 1376.25,
-     "end": 1560.25,
-     "timerEnd": 1556.25
+     "start": 1388.25,
+     "end": 1572.25,
+     "timerEnd": 1568.25
     }
    ]
   },
   {
    "title": "Bandha Locks",
    "subtitle": "One guided round, then rest your attention at the brow",
-   "start": 1560.25,
+   "start": 1572.25,
    "phases": [
     {
      "kind": "voice",
      "label": "Guided round",
-     "start": 1560.25,
-     "end": 1610.57
+     "start": 1572.25,
+     "end": 1622.57
     },
     {
      "kind": "practice",
      "label": "Eyebrow centre",
-     "start": 1610.57,
-     "end": 2044.25,
-     "timerEnd": 2040.25,
+     "start": 1622.57,
+     "end": 2056.25,
+     "timerEnd": 2052.25,
      "cues": [
       {
-       "at": 1920.25,
+       "at": 1932.25,
        "label": "Chanting"
       }
      ]
@@ -171,19 +171,19 @@
   {
    "title": "Closing",
    "subtitle": "",
-   "start": 2044.25,
+   "start": 2056.25,
    "phases": [
     {
      "kind": "voice",
      "label": "Closing",
-     "start": 2044.25,
-     "end": 2057.69
+     "start": 2056.25,
+     "end": 2069.69
     },
     {
      "kind": "end",
      "label": "Complete",
-     "start": 2057.69,
-     "end": 2074.19
+     "start": 2069.69,
+     "end": 2086.19
     }
    ]
   }
