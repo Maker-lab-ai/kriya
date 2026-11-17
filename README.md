@@ -15,6 +15,9 @@ A guided Kriya meditation timer for your phone. The full session is one audio tr
 7. Bandha Locks – one guided round, then eyebrow centre; chanting over the last 2:00; 8:00 total (chime at halfway)
 8. Closing
 
+## Voices
+Two guidance voices, switchable in the app: **Original** and **Proctor** (an original ElevenLabs designed voice). Each has its own track: `audio/session-<voice>.mp3`. Proctor's lines are recorded as separate phrases in `build/clips/proctor/` so pauses are set exactly.
+
 ## Rebuilding the audio
 Voice clips live in `build/clips/` (ElevenLabs). To add or replace the Om recording, put it at `build/clips/om.m4a` (any format ffmpeg reads), then:
 

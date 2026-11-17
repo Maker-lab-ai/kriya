@@ -9,15 +9,18 @@ const CORE_FILES = ['./', 'index.html', 'timeline.json', 'manifest.webmanifest',
 
 const fresh = url => new Request(url, { cache: 'reload' });   // bypass the HTTP cache
 
+// Cache every voice's current audio so switching voice also works offline.
 async function cacheCurrentAudio() {
   const tl = await (await fetch(fresh('timeline.json'))).json();
-  const url = new URL(tl.audio, self.registration.scope).href;
+  const list = (tl.voices || [tl]).map(v => new URL(v.audio, self.registration.scope).href);
   const cache = await caches.open(AUDIO_CACHE);
-  if (!(await cache.match(url))) {
-    const res = await fetch(fresh(url));
-    if (res.ok) await cache.put(url, res);
+  for (const url of list) {
+    if (!(await cache.match(url))) {
+      const res = await fetch(fresh(url));
+      if (res.ok) await cache.put(url, res);
+    }
   }
-  for (const req of await cache.keys()) if (req.url !== url) await cache.delete(req);
+  for (const req of await cache.keys()) if (!list.includes(req.url)) await cache.delete(req);
 }
 
 self.addEventListener('install', e => {

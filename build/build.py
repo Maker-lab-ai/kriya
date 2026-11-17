@@ -140,19 +140,65 @@ def om_track():
     print(f"  Om recording: {OM_LEN:.2f}s x {OM_COUNT}")
     return np.tile(one, OM_COUNT), True
 
+# ---------- voices ----------
+# Each voice supplies the same guidance pieces; everything else (bells, Om, chants, timings) is shared.
+
+def trimmed(path, pad=0.12):
+    """Load a clip and trim leading/trailing quiet, leaving a small pad."""
+    a = load(path)
+    thr = 0.01 * np.abs(a).max()
+    idx = np.where(np.abs(a) > thr)[0]
+    return a[max(0, idx[0] - int(pad * SR)): idx[-1] + int(pad * SR)]
+
+def joined(paths, gap):
+    parts = []
+    for i, pth in enumerate(paths):
+        if i: parts.append(silence(gap))
+        parts.append(trimmed(pth))
+    return np.concatenate(parts)
+
+def voice_original():
+    opening = clip_with_pauses("c01_open_butterfly.mp3", OPENING_BREATH_PAUSES, 3.0)
+    split = int((OPENING_SPLIT + 3.0 * len(OPENING_BREATH_PAUSES)) * SR)
+    return {
+        "prep": opening[:split], "butterfly": opening[split:],
+        "rock_left": clip("c02_rock_left.mp3"), "rock_switch": clip("c03_rock_switch.mp3"),
+        "catcow": clip_with_pauses("c04_catcow.mp3", CATCOW_MOVE_PAUSES, 2.0),
+        "circular": clip("c05_circular.mp3"), "om_intro": clip("c06_om_intro.mp3"),
+        "flutter": clip("c07_flutter.mp3"),
+        "bandha_a": clip("c08a_bandha.mp3"), "bandha_b": clip("c08b_bandha.mp3"), "bandha_c": clip("c08c_bandha.mp3"),
+        "closing": clip("c10_closing.mp3"),
+    }
+
+def voice_split(folder):
+    """A voice recorded as separate phrases, so the breathing / movement gaps are set exactly."""
+    P = lambda n: os.path.join(CLIPS, folder, n + ".mp3")
+    lead = silence(0.3)
+    return {
+        # ~3.9 s between breath cues, matching the original voice's pauses
+        "prep": np.concatenate([lead, joined([P("p01a"), P("p01b"), P("p01c"), P("p01d"), P("p01e")], 3.6)]),
+        "butterfly": trimmed(P("p01f")),
+        "rock_left": trimmed(P("p02")), "rock_switch": trimmed(P("p03")),
+        # ~2.5 s after each movement cue
+        "catcow": joined([P("p04a"), P("p04b"), P("p04c"), P("p04d"), P("p04e"), P("p04f"), P("p04g")], 2.3),
+        "circular": trimmed(P("p05")), "om_intro": trimmed(P("p06")), "flutter": trimmed(P("p07")),
+        "bandha_a": trimmed(P("p08a")), "bandha_b": trimmed(P("p08b")), "bandha_c": trimmed(P("p08c")),
+        "closing": trimmed(P("p10")),
+    }
+
+VOICES = [
+    {"id": "original", "name": "Original", "pieces": voice_original},
+    {"id": "proctor", "name": "Proctor", "pieces": lambda: voice_split("proctor")},
+]
+
 # ---------- the session ----------
 
-def build():
+def build_session(V, om, has_om):
     s = Session()
     s.add(silence(2.0))
 
-    # The opening clip is split at the pause after "...in this moment." (26.93 s):
-    # the first part opens Preparation, the rest ("We'll begin with butterfly pose...") opens Butterfly.
-    opening = clip_with_pauses("c01_open_butterfly.mp3", OPENING_BREATH_PAUSES, 3.0)
-    split = int((OPENING_SPLIT + 3.0 * len(OPENING_BREATH_PAUSES)) * SR)
-
     s.section("Preparation", "Arriving, breathing, chanting")
-    s.phase("voice", "Settling in", lambda: (s.add(opening[:split]), s.add(silence(3.5))))
+    s.phase("voice", "Settling in", lambda: (s.add(V["prep"]), s.add(silence(3.5))))
     def prep_chant():
         s.add(load(os.path.join(CLIPS, "chant_prep.m4a"), normalize_lufs=-21.0))
         s.timer_end = s.t
@@ -160,11 +206,11 @@ def build():
     s.phase("practice", "Chanting", prep_chant)
 
     s.section("Butterfly", "Gently flutter the knees")
-    s.phase("voice", "Guidance", lambda: s.add(opening[split:]))
+    s.phase("voice", "Guidance", lambda: s.add(V["butterfly"]))
     s.phase("practice", "Butterfly", lambda: timed(s, 120))
 
     s.section("Rock the Baby", "Left leg, then right leg")
-    s.phase("voice", "Guidance", lambda: s.add(clip("c02_rock_left.mp3")))
+    s.phase("voice", "Guidance", lambda: s.add(V["rock_left"]))
     def left():
         s.mix_at(s.t, BELL)
         s.add(silence(120))
@@ -172,32 +218,31 @@ def build():
         s.mix_at(s.t, CHIME)
         s.add(silence(1.5))
     s.phase("practice", "Left leg", left)
-    s.phase("voice", "Switch legs", lambda: s.add(clip("c03_rock_switch.mp3")))
+    s.phase("voice", "Switch legs", lambda: s.add(V["rock_switch"]))
     s.phase("practice", "Right leg", lambda: (s.add(silence(118.5)), setattr(s, "timer_end", s.t), s.mix_at(s.t, BELL), s.add(silence(4.0))))
 
     s.section("Cat Cow", "With knee-to-chin and leg extensions")
-    s.phase("voice", "Guidance", lambda: s.add(clip_with_pauses("c04_catcow.mp3", CATCOW_MOVE_PAUSES, 2.0)))
+    s.phase("voice", "Guidance", lambda: s.add(V["catcow"]))
     s.phase("practice", "Cat cow", lambda: timed(s, 90))
 
     s.section("Circular Breathing", "Continuous breath, no pauses")
-    s.phase("voice", "Guidance", lambda: s.add(clip("c05_circular.mp3")))
+    s.phase("voice", "Guidance", lambda: s.add(V["circular"]))
     s.phase("practice", "Circular breathing", lambda: timed(s, 480, halfway=True))
 
     s.section("Om Chanting", "21 Oms")
-    s.phase("voice", "Guidance", lambda: (s.add(clip("c06_om_intro.mp3")), s.add(silence(2.0))))
-    om, has_om = om_track()
+    s.phase("voice", "Guidance", lambda: (s.add(V["om_intro"]), s.add(silence(2.0))))
     s.phase("om", "Om", lambda: (s.add(om), setattr(s, "timer_end", s.t), s.add(silence(2.0))))
 
     s.section("Flutter Breath", "Light and quick")
-    s.phase("voice", "Guidance", lambda: s.add(clip("c07_flutter.mp3")))
+    s.phase("voice", "Guidance", lambda: s.add(V["flutter"]))
     s.phase("practice", "Flutter breath", lambda: timed(s, 180))
 
     s.section("Bandha Locks", "One guided round, then rest your attention at the brow")
     sec_start = s.t
     def guided():
-        s.add(clip("c08a_bandha.mp3")); s.add(silence(5.0))
-        s.add(clip("c08b_bandha.mp3")); s.add(silence(3.0))
-        s.add(clip("c08c_bandha.mp3"))
+        s.add(V["bandha_a"]); s.add(silence(5.0))
+        s.add(V["bandha_b"]); s.add(silence(3.0))
+        s.add(V["bandha_c"])
     s.phase("voice", "Guided round", guided)
     def rest_of_bandha():
         s.mix_at(sec_start + 240, CHIME)          # halfway through the 8 minutes
@@ -210,9 +255,8 @@ def build():
         s.add(silence(4.0))
     s.phase("practice", "Eyebrow centre", rest_of_bandha)
 
-
     s.section("Closing", "")
-    s.phase("voice", "Closing", lambda: s.add(clip("c10_closing.mp3")))
+    s.phase("voice", "Closing", lambda: s.add(V["closing"]))
     def final():
         s.add(silence(1.5))
         for k in range(3):
@@ -224,20 +268,29 @@ def build():
     peak = np.abs(audio).max()
     if peak > 0.98:
         audio *= 0.98 / peak
+    return audio, s.sections
 
-    out_mp3 = os.path.join(ROOT, "audio", "session.mp3")
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-",
-                    "-c:a", "libmp3lame", "-b:a", "64k", out_mp3], input=audio.tobytes(), check=True)
-
+def build():
     import hashlib, datetime
-    digest = hashlib.md5(open(out_mp3, "rb").read()).hexdigest()[:10]
-    timeline = {"audio": f"audio/session.mp3?v={digest}",
-                "built": datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%d %b %Y, %H:%M"),
-                "duration": round(len(audio) / SR, 2), "om": {"count": OM_COUNT, "len": OM_LEN, "gap": OM_GAP,
-                "recorded": has_om}, "sections": s.sections}
+    om, has_om = om_track()
+    out = []
+    for v in VOICES:
+        audio, sections = build_session(v["pieces"](), om, has_om)
+        rel = f"audio/session-{v['id']}.mp3"
+        path = os.path.join(ROOT, rel)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-",
+                        "-c:a", "libmp3lame", "-b:a", "64k", path], input=audio.tobytes(), check=True)
+        digest = hashlib.md5(open(path, "rb").read()).hexdigest()[:10]
+        out.append({"id": v["id"], "name": v["name"], "audio": f"{rel}?v={digest}",
+                    "duration": round(len(audio) / SR, 2), "sections": sections})
+        print(f"{v['name']}: {len(audio)/SR/60:.1f} min -> {rel}")
+    timeline = {"built": datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%d %b %Y, %H:%M"),
+                "om": {"count": OM_COUNT, "len": OM_LEN, "gap": OM_GAP, "recorded": has_om},
+                "voices": out,
+                # first voice also at top level, for older copies of the app
+                "audio": out[0]["audio"], "duration": out[0]["duration"], "sections": out[0]["sections"]}
     with open(os.path.join(ROOT, "timeline.json"), "w") as f:
         json.dump(timeline, f, indent=1)
-    print(f"session: {timeline['duration']/60:.1f} min -> {out_mp3}")
 
 if __name__ == "__main__":
     build()

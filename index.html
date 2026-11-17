@@ -67,6 +67,9 @@
   ol.steps li.done .n { background: var(--dim); color: var(--bg); border-color: var(--dim); }
   ol.steps li.now { color: var(--ink); }
   ol.steps li.now .n { border-color: var(--gold); color: var(--gold); }
+  .voices { display: flex; align-items: center; gap: 8px; margin: 16px 0 0; color: var(--dim); font-size: 13px; }
+  .voices button { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
+  .voices button.on { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
   .restart { margin: 14px 0 0; padding: 8px 18px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; }
   .restart:active { background: var(--line); }
   .restart.armed { border-color: var(--gold); color: var(--gold); }
@@ -108,6 +111,7 @@
     <span id="elapsed">0:00</span><div class="bar"><div id="bar"></div></div><span id="total">--:--</span>
   </div>
 
+  <div class="voices" id="voices" hidden><span>Voice</span></div>
   <button class="restart" id="restart">↺ Restart Kriya</button>
 
   <ol class="steps" id="steps"><li class="loading">Loading…</li></ol>
@@ -193,7 +197,7 @@ function update() {
   const s = Math.floor(t);
   if (s !== lastSec) {
     lastSec = s;
-    if (Date.now() - lastSaved > 3000) { lastSaved = Date.now(); try { localStorage.setItem('kriya-pos', String(t)); } catch (e) {} }
+    if (Date.now() - lastSaved > 3000) { lastSaved = Date.now(); try { localStorage.setItem('kriya-pos', JSON.stringify({ v: T.id, t })); } catch (e) {} }
     if ('mediaSession' in navigator && navigator.mediaSession.setPositionState && audio.duration)
       try { navigator.mediaSession.setPositionState({ duration: audio.duration, position: t, playbackRate: 1 }); } catch (e) {}
   }
@@ -251,14 +255,48 @@ if ('mediaSession' in navigator) {
 // smooth countdown while playing (timeupdate only fires ~4x/sec)
 (function loop() { if (!audio.paused) update(); requestAnimationFrame(loop); })();
 
-fetch('timeline.json', { cache: 'no-cache' }).then(r => r.json()).then(tl => {
-  T = tl;
-  audio.src = T.audio || 'audio/session.mp3';
-  $('version').textContent = T.built ? `Version ${T.built}` : '';
+let TL = null;
+function useVoice(id, keepPlace) {
+  const v = TL.voices.find(x => x.id === id) || TL.voices[0];
+  let target = 0, wasPlaying = !audio.paused;
+  if (keepPlace && T) {
+    // keep your place: same step and phase, same time into the phase
+    const t = audio.currentTime, { si, pi, ph } = where(t);
+    const nph = v.sections[si] && v.sections[si].phases[pi];
+    if (nph) target = nph.start + Math.min(t - ph.start, Math.max(0, nph.end - nph.start - 0.5));
+  }
+  T = Object.assign({ om: TL.om }, v);
+  try { localStorage.setItem('kriya-voice', v.id); } catch (e) {}
+  audio.pause();
+  audio.src = v.audio;
+  lastSi = -1;
   renderSteps();
-  let saved = 0;
-  try { saved = parseFloat(localStorage.getItem('kriya-pos') || '0'); } catch (e) {}
-  if (saved > 5 && saved < T.duration - 20) seek(saved, false);
+  seek(target, keepPlace && wasPlaying);
+  renderVoices();
+}
+function renderVoices() {
+  const box = $('voices');
+  if (!TL || TL.voices.length < 2) return;
+  box.hidden = false;
+  box.querySelectorAll('button').forEach(b => b.remove());
+  TL.voices.forEach(v => {
+    const b = document.createElement('button');
+    b.textContent = v.name;
+    if (T && T.id === v.id) b.className = 'on';
+    b.onclick = () => { if (T.id !== v.id) useVoice(v.id, true); };
+    box.appendChild(b);
+  });
+}
+
+fetch('timeline.json', { cache: 'no-cache' }).then(r => r.json()).then(tl => {
+  TL = tl;
+  if (!TL.voices) TL.voices = [{ id: 'original', name: 'Original', audio: TL.audio, duration: TL.duration, sections: TL.sections }];
+  $('version').textContent = TL.built ? `Version ${TL.built}` : '';
+  let pref = null, saved = null;
+  try { pref = localStorage.getItem('kriya-voice'); saved = JSON.parse(localStorage.getItem('kriya-pos') || 'null'); } catch (e) {}
+  useVoice(pref, false);
+  renderVoices();
+  if (saved && saved.v === T.id && saved.t > 5 && saved.t < T.duration - 20) seek(saved.t, false);
   update();
 });
 

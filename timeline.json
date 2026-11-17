@@ -1,13 +1,427 @@
 {
- "audio": "audio/session.mp3?v=78d6b5aebe",
- "built": "17 Nov 2026, 18:23",
- "duration": 2129.94,
+ "built": "17 Nov 2026, 18:39",
  "om": {
   "count": 21,
   "len": 11.49,
   "gap": 2.0,
   "recorded": true
  },
+ "voices": [
+  {
+   "id": "original",
+   "name": "Original",
+   "audio": "audio/session-original.mp3?v=78d6b5aebe",
+   "duration": 2129.94,
+   "sections": [
+    {
+     "title": "Preparation",
+     "subtitle": "Arriving, breathing, chanting",
+     "start": 2.0,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Settling in",
+       "start": 2.0,
+       "end": 44.43
+      },
+      {
+       "kind": "practice",
+       "label": "Chanting",
+       "start": 44.43,
+       "end": 72.68,
+       "timerEnd": 70.18
+      }
+     ]
+    },
+    {
+     "title": "Butterfly",
+     "subtitle": "Gently flutter the knees",
+     "start": 72.68,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 72.68,
+       "end": 85.75
+      },
+      {
+       "kind": "practice",
+       "label": "Butterfly",
+       "start": 85.75,
+       "end": 209.75,
+       "timerEnd": 205.75
+      }
+     ]
+    },
+    {
+     "title": "Rock the Baby",
+     "subtitle": "Left leg, then right leg",
+     "start": 209.75,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 209.75,
+       "end": 229.03
+      },
+      {
+       "kind": "practice",
+       "label": "Left leg",
+       "start": 229.03,
+       "end": 350.53,
+       "timerEnd": 349.03
+      },
+      {
+       "kind": "voice",
+       "label": "Switch legs",
+       "start": 350.53,
+       "end": 357.01
+      },
+      {
+       "kind": "practice",
+       "label": "Right leg",
+       "start": 357.01,
+       "end": 479.51,
+       "timerEnd": 475.51
+      }
+     ]
+    },
+    {
+     "title": "Cat Cow",
+     "subtitle": "With knee-to-chin and leg extensions",
+     "start": 479.51,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 479.51,
+       "end": 528.55
+      },
+      {
+       "kind": "practice",
+       "label": "Cat cow",
+       "start": 528.55,
+       "end": 622.55,
+       "timerEnd": 618.55
+      }
+     ]
+    },
+    {
+     "title": "Circular Breathing",
+     "subtitle": "Continuous breath, no pauses",
+     "start": 622.55,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 622.55,
+       "end": 634.07
+      },
+      {
+       "kind": "practice",
+       "label": "Circular breathing",
+       "start": 634.07,
+       "end": 1118.07,
+       "timerEnd": 1114.07
+      }
+     ]
+    },
+    {
+     "title": "Om Chanting",
+     "subtitle": "21 Oms",
+     "start": 1118.07,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 1118.07,
+       "end": 1134.79
+      },
+      {
+       "kind": "om",
+       "label": "Om",
+       "start": 1134.79,
+       "end": 1420.08,
+       "timerEnd": 1418.08
+      }
+     ]
+    },
+    {
+     "title": "Flutter Breath",
+     "subtitle": "Light and quick",
+     "start": 1420.08,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 1420.08,
+       "end": 1432.0
+      },
+      {
+       "kind": "practice",
+       "label": "Flutter breath",
+       "start": 1432.0,
+       "end": 1616.0,
+       "timerEnd": 1612.0
+      }
+     ]
+    },
+    {
+     "title": "Bandha Locks",
+     "subtitle": "One guided round, then rest your attention at the brow",
+     "start": 1616.0,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guided round",
+       "start": 1616.0,
+       "end": 1666.32
+      },
+      {
+       "kind": "practice",
+       "label": "Eyebrow centre",
+       "start": 1666.32,
+       "end": 2100.0,
+       "timerEnd": 2096.0,
+       "cues": [
+        {
+         "at": 1976.0,
+         "label": "Chanting"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "Closing",
+     "subtitle": "",
+     "start": 2100.0,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Closing",
+       "start": 2100.0,
+       "end": 2113.44
+      },
+      {
+       "kind": "end",
+       "label": "Complete",
+       "start": 2113.44,
+       "end": 2129.94
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "proctor",
+   "name": "Proctor",
+   "audio": "audio/session-proctor.mp3?v=d5903022b2",
+   "duration": 2147.99,
+   "sections": [
+    {
+     "title": "Preparation",
+     "subtitle": "Arriving, breathing, chanting",
+     "start": 2.0,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Settling in",
+       "start": 2.0,
+       "end": 47.26
+      },
+      {
+       "kind": "practice",
+       "label": "Chanting",
+       "start": 47.26,
+       "end": 75.51,
+       "timerEnd": 73.01
+      }
+     ]
+    },
+    {
+     "title": "Butterfly",
+     "subtitle": "Gently flutter the knees",
+     "start": 75.51,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 75.51,
+       "end": 90.31
+      },
+      {
+       "kind": "practice",
+       "label": "Butterfly",
+       "start": 90.31,
+       "end": 214.31,
+       "timerEnd": 210.31
+      }
+     ]
+    },
+    {
+     "title": "Rock the Baby",
+     "subtitle": "Left leg, then right leg",
+     "start": 214.31,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 214.31,
+       "end": 234.55
+      },
+      {
+       "kind": "practice",
+       "label": "Left leg",
+       "start": 234.55,
+       "end": 356.05,
+       "timerEnd": 354.55
+      },
+      {
+       "kind": "voice",
+       "label": "Switch legs",
+       "start": 356.05,
+       "end": 362.93
+      },
+      {
+       "kind": "practice",
+       "label": "Right leg",
+       "start": 362.93,
+       "end": 485.43,
+       "timerEnd": 481.43
+      }
+     ]
+    },
+    {
+     "title": "Cat Cow",
+     "subtitle": "With knee-to-chin and leg extensions",
+     "start": 485.43,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 485.43,
+       "end": 542.96
+      },
+      {
+       "kind": "practice",
+       "label": "Cat cow",
+       "start": 542.96,
+       "end": 636.96,
+       "timerEnd": 632.96
+      }
+     ]
+    },
+    {
+     "title": "Circular Breathing",
+     "subtitle": "Continuous breath, no pauses",
+     "start": 636.96,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 636.96,
+       "end": 649.2
+      },
+      {
+       "kind": "practice",
+       "label": "Circular breathing",
+       "start": 649.2,
+       "end": 1133.2,
+       "timerEnd": 1129.2
+      }
+     ]
+    },
+    {
+     "title": "Om Chanting",
+     "subtitle": "21 Oms",
+     "start": 1133.2,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 1133.2,
+       "end": 1151.03
+      },
+      {
+       "kind": "om",
+       "label": "Om",
+       "start": 1151.03,
+       "end": 1436.32,
+       "timerEnd": 1434.32
+      }
+     ]
+    },
+    {
+     "title": "Flutter Breath",
+     "subtitle": "Light and quick",
+     "start": 1436.32,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guidance",
+       "start": 1436.32,
+       "end": 1449.04
+      },
+      {
+       "kind": "practice",
+       "label": "Flutter breath",
+       "start": 1449.04,
+       "end": 1633.04,
+       "timerEnd": 1629.04
+      }
+     ]
+    },
+    {
+     "title": "Bandha Locks",
+     "subtitle": "One guided round, then rest your attention at the brow",
+     "start": 1633.04,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Guided round",
+       "start": 1633.04,
+       "end": 1685.97
+      },
+      {
+       "kind": "practice",
+       "label": "Eyebrow centre",
+       "start": 1685.97,
+       "end": 2117.04,
+       "timerEnd": 2113.04,
+       "cues": [
+        {
+         "at": 1993.04,
+         "label": "Chanting"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "Closing",
+     "subtitle": "",
+     "start": 2117.04,
+     "phases": [
+      {
+       "kind": "voice",
+       "label": "Closing",
+       "start": 2117.04,
+       "end": 2131.49
+      },
+      {
+       "kind": "end",
+       "label": "Complete",
+       "start": 2131.49,
+       "end": 2147.99
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "audio": "audio/session-original.mp3?v=78d6b5aebe",
+ "duration": 2129.94,
  "sections": [
   {
    "title": "Preparation",
