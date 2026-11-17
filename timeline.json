@@ -1,7 +1,7 @@
 {
- "audio": "audio/session.mp3?v=d0ce93c939",
- "built": "17 Nov 2026, 13:19",
- "duration": 2207.43,
+ "audio": "audio/session.mp3?v=d1c4a2757d",
+ "built": "17 Nov 2026, 13:36",
+ "duration": 2074.19,
  "om": {
   "count": 21,
   "len": 11.49,
@@ -169,41 +169,21 @@
    ]
   },
   {
-   "title": "Integration",
-   "subtitle": "Silent stillness",
+   "title": "Closing",
+   "subtitle": "",
    "start": 2044.25,
    "phases": [
     {
      "kind": "voice",
-     "label": "Guidance",
-     "start": 2044.25,
-     "end": 2054.49
-    },
-    {
-     "kind": "practice",
-     "label": "Stillness",
-     "start": 2054.49,
-     "end": 2177.49,
-     "timerEnd": 2174.49
-    }
-   ]
-  },
-  {
-   "title": "Closing",
-   "subtitle": "",
-   "start": 2177.49,
-   "phases": [
-    {
-     "kind": "voice",
      "label": "Closing",
-     "start": 2177.49,
-     "end": 2190.93
+     "start": 2044.25,
+     "end": 2057.69
     },
     {
      "kind": "end",
      "label": "Complete",
-     "start": 2190.93,
-     "end": 2207.43
+     "start": 2057.69,
+     "end": 2074.19
     }
    ]
   }

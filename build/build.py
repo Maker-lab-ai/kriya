@@ -29,22 +29,22 @@ def silence(sec):
     return np.zeros(int(round(sec * SR)), dtype=np.float32)
 
 def bowl(f0=196.0, dur=7.0, gain=0.32, seed=0):
-    """Soft singing-bowl strike: inharmonic partials, slow decay, gentle beating."""
+    """Soft singing-bowl strike: mostly the warm fundamental, quiet overtones, padded attack."""
     t = np.arange(int(dur * SR)) / SR
-    partials = [(1.0, 1.0, 5.5), (2.71, 0.55, 3.6), (5.15, 0.25, 2.2), (8.40, 0.10, 1.3)]
+    partials = [(1.0, 1.0, 6.0), (2.71, 0.30, 3.2), (5.15, 0.06, 1.8)]
     out = np.zeros_like(t)
     for ratio, amp, decay in partials:
         f = f0 * ratio
         beat = 1 + 0.15 * np.sin(2 * np.pi * (0.6 + 0.2 * ratio) * t)
         out += amp * beat * np.exp(-t / decay) * (np.sin(2 * np.pi * f * t) + 0.5 * np.sin(2 * np.pi * f * 1.003 * t))
-    attack = np.minimum(1, t / 0.008)
+    attack = np.sin(0.5 * np.pi * np.minimum(1, t / 0.06))   # soft mallet, no click
     out *= attack
     out /= np.abs(out).max()
     return (gain * out).astype(np.float32)
 
-BELL = bowl(196.0, 7.0, 0.30)            # start / end of a timed section
-CHIME = bowl(523.0, 4.0, 0.14)           # soft halfway chime
-FINAL = bowl(174.6, 9.0, 0.30)           # closing bell
+BELL = bowl(196.0, 7.0, 0.11)            # start / end of a timed section
+CHIME = bowl(330.0, 4.5, 0.06)           # soft halfway chime
+FINAL = bowl(174.6, 9.0, 0.12)           # closing bell
 
 # ---------- timeline builder ----------
 
@@ -179,9 +179,6 @@ def build():
         s.add(silence(4.0))
     s.phase("practice", "Eyebrow centre", rest_of_bandha)
 
-    s.section("Integration", "Silent stillness")
-    s.phase("voice", "Guidance", lambda: s.add(clip("c09_rest.mp3")))
-    s.phase("practice", "Stillness", lambda: (s.add(silence(120)), setattr(s, "timer_end", s.t), s.mix_at(s.t, CHIME), s.add(silence(3.0))))
 
     s.section("Closing", "")
     s.phase("voice", "Closing", lambda: s.add(clip("c10_closing.mp3")))
