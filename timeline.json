@@ -1,5 +1,5 @@
 {
- "built": "17 Nov 2026, 20:13",
+ "built": "17 Nov 2026, 20:16",
  "meditations": [
   {
    "id": "kriya",
@@ -451,11 +451,11 @@
      "id": "proctor",
      "name": "Proctor",
      "audio": {
-      "rain": "audio/sleep-proctor-rain.mp3?v=70797c3b6b",
-      "waves": "audio/sleep-proctor-waves.mp3?v=cae940d1f5",
-      "silence": "audio/sleep-proctor-silence.mp3?v=d13e27b871"
+      "rain": "audio/sleep-proctor-rain.mp3?v=c8266a403d",
+      "waves": "audio/sleep-proctor-waves.mp3?v=8791704066",
+      "silence": "audio/sleep-proctor-silence.mp3?v=c53a4d5e29"
      },
-     "duration": 1440.83,
+     "duration": 1200.83,
      "sections": [
       {
        "title": "Settling In",
@@ -492,65 +492,65 @@
          "kind": "sleep",
          "label": "Relaxing the Body",
          "start": 167.18,
-         "end": 435.9
+         "end": 364.9
         }
        ]
       },
       {
        "title": "Letting Go of the Day",
        "subtitle": "",
-       "start": 435.9,
+       "start": 364.9,
        "phases": [
         {
          "kind": "sleep",
          "label": "Letting Go of the Day",
-         "start": 435.9,
-         "end": 544.16
+         "start": 364.9,
+         "end": 443.16
         }
        ]
       },
       {
        "title": "Seeing Your Desired Life",
        "subtitle": "",
-       "start": 544.16,
+       "start": 443.16,
        "phases": [
         {
          "kind": "sleep",
          "label": "Seeing Your Desired Life",
-         "start": 544.16,
-         "end": 805.02
+         "start": 443.16,
+         "end": 610.02
         }
        ]
       },
       {
        "title": "Abundance Affirmations",
        "subtitle": "",
-       "start": 805.02,
+       "start": 610.02,
        "phases": [
         {
          "kind": "sleep",
          "label": "Abundance Affirmations",
-         "start": 805.02,
-         "end": 1092.06
+         "start": 610.02,
+         "end": 852.06
         }
        ]
       },
       {
        "title": "Drifting into Sleep",
        "subtitle": "",
-       "start": 1092.06,
+       "start": 852.06,
        "phases": [
         {
          "kind": "sleep",
          "label": "Drifting into Sleep",
-         "start": 1092.06,
-         "end": 1140.83
+         "start": 852.06,
+         "end": 900.83
         },
         {
          "kind": "fade",
          "label": "Fading out",
-         "start": 1140.83,
-         "end": 1440.83
+         "start": 900.83,
+         "end": 1200.83
         }
        ]
       }

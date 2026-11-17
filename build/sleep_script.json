@@ -1,70 +1,291 @@
 {
  "title": "Sleep Manifestation",
  "sections": [
-  {"title": "Settling In", "lines": [
-   ["s1a", "Welcome. This is your time to rest… and to gently plant the seeds of the life you're creating. Lie down comfortably on your back… let your arms rest by your sides, palms open. Let the bed hold you completely.", 10],
-   ["s1b", "There is nothing you need to do now… nowhere you need to be.", 8],
-   ["s1c", "Let your eyes close… and let the day fade away.", 15]
-  ]},
-  {"title": "Slowing the Breath", "lines": [
-   ["s2a", "Breathe in slowly through your nose…", 4],
-   ["s2b", "and let it go through your mouth, with a long, soft sigh.", 6],
-   ["s2c", "Again… breathe in…", 4],
-   ["s2d", "and let it go.", 6],
-   ["s2e", "Once more, a little slower… breathe in…", 5],
-   ["s2f", "and let everything go.", 8],
-   ["s2g", "Now let your breath find its own rhythm… slow and easy.", 10],
-   ["s2h", "With each breath out, you sink a little deeper into rest.", 30]
-  ]},
-  {"title": "Relaxing the Body", "lines": [
-   ["s3a", "Bring your attention to your feet… let them soften and grow heavy.", 15],
-   ["s3b", "Let that heaviness flow up into your calves… your knees… your thighs.", 18],
-   ["s3c", "Your legs are completely relaxed.", 15],
-   ["s3d", "Feel your hips and lower back melt into the bed.", 15],
-   ["s3e", "Your belly rises and falls… soft and easy.", 15],
-   ["s3f", "Let your chest open… your heartbeat slow and steady.", 15],
-   ["s3g", "Let your shoulders drop away from your ears…", 12],
-   ["s3h", "the heaviness flowing down your arms… into your hands… to the very tips of your fingers.", 18],
-   ["s3i", "Soften your neck… your jaw… let your tongue rest.", 15],
-   ["s3j", "Relax the tiny muscles around your eyes… smooth your forehead.", 15],
-   ["s3k", "Your whole body is heavy… warm… and safe.", 60]
-  ]},
-  {"title": "Letting Go of the Day", "lines": [
-   ["s4a", "Whatever happened today… let it be complete.", 8],
-   ["s4b", "Anything left undone can wait until tomorrow.", 8],
-   ["s4c", "Imagine placing each thought on a leaf… and watching it drift gently down a quiet stream.", 15],
-   ["s4d", "There's nothing to hold on to now.", 60]
-  ]},
-  {"title": "Seeing Your Desired Life", "lines": [
-   ["s5a", "Now, in this calm and open space… bring to mind the life you are creating.", 15],
-   ["s5b", "Imagine it as if it's already here.", 12],
-   ["s5c", "See where you are… who is with you… what you're doing.", 25],
-   ["s5d", "Notice the small details… the colours… the sounds… the light.", 25],
-   ["s5e", "And feel what it's like to live this life… the ease… the gratitude… the quiet joy.", 25],
-   ["s5f", "Let that feeling fill your chest… and spread through your whole body.", 30],
-   ["s5g", "Hold it gently… as something already on its way to you.", 90]
-  ]},
-  {"title": "Abundance Affirmations", "lines": [
-   ["s6a", "Repeat these words silently… or simply let them wash over you.", 6],
-   ["s6b", "I am open to receiving all the abundance that life has for me.", 15],
-   ["s6c", "Money flows to me easily… from expected and unexpected places.", 15],
-   ["s6d", "I welcome prosperity… and I use it wisely and generously.", 15],
-   ["s6e", "My body is strong, healthy and full of energy.", 15],
-   ["s6f", "With every breath, my body rests and renews itself.", 15],
-   ["s6g", "I attract kind, inspiring people into my life.", 15],
-   ["s6h", "My relationships are rich with trust and support.", 15],
-   ["s6i", "I am loved… and I love freely.", 15],
-   ["s6j", "Love surrounds me… and flows through me.", 15],
-   ["s6k", "I am grateful for the abundance that is already mine… and for all that is on its way.", 15],
-   ["s6l", "I am calm. I am safe. I am enough.", 20],
-   ["s6m", "Let these words settle into the deepest part of your mind… as you drift towards sleep.", 45]
-  ]},
-  {"title": "Drifting into Sleep", "lines": [
-   ["s7a", "Now let go of the words… let go of the pictures.", 10],
-   ["s7b", "Your only task now is to rest.", 10],
-   ["s7c", "Let sleep come to you… easily and naturally.", 15],
-   ["s7d", "Sleep well.", 0]
-  ]}
+  {
+   "title": "Settling In",
+   "lines": [
+    [
+     "s1a",
+     "Welcome. This is your time to rest… and to gently plant the seeds of the life you're creating. Lie down comfortably on your back… let your arms rest by your sides, palms open. Let the bed hold you completely.",
+     10
+    ],
+    [
+     "s1b",
+     "There is nothing you need to do now… nowhere you need to be.",
+     8
+    ],
+    [
+     "s1c",
+     "Let your eyes close… and let the day fade away.",
+     15
+    ]
+   ]
+  },
+  {
+   "title": "Slowing the Breath",
+   "lines": [
+    [
+     "s2a",
+     "Breathe in slowly through your nose…",
+     4
+    ],
+    [
+     "s2b",
+     "and let it go through your mouth, with a long, soft sigh.",
+     6
+    ],
+    [
+     "s2c",
+     "Again… breathe in…",
+     4
+    ],
+    [
+     "s2d",
+     "and let it go.",
+     6
+    ],
+    [
+     "s2e",
+     "Once more, a little slower… breathe in…",
+     5
+    ],
+    [
+     "s2f",
+     "and let everything go.",
+     8
+    ],
+    [
+     "s2g",
+     "Now let your breath find its own rhythm… slow and easy.",
+     10
+    ],
+    [
+     "s2h",
+     "With each breath out, you sink a little deeper into rest.",
+     30
+    ]
+   ]
+  },
+  {
+   "title": "Relaxing the Body",
+   "lines": [
+    [
+     "s3a",
+     "Bring your attention to your feet… let them soften and grow heavy.",
+     10
+    ],
+    [
+     "s3b",
+     "Let that heaviness flow up into your calves… your knees… your thighs.",
+     12
+    ],
+    [
+     "s3c",
+     "Your legs are completely relaxed.",
+     10
+    ],
+    [
+     "s3d",
+     "Feel your hips and lower back melt into the bed.",
+     10
+    ],
+    [
+     "s3e",
+     "Your belly rises and falls… soft and easy.",
+     10
+    ],
+    [
+     "s3f",
+     "Let your chest open… your heartbeat slow and steady.",
+     10
+    ],
+    [
+     "s3g",
+     "Let your shoulders drop away from your ears…",
+     8
+    ],
+    [
+     "s3h",
+     "the heaviness flowing down your arms… into your hands… to the very tips of your fingers.",
+     12
+    ],
+    [
+     "s3i",
+     "Soften your neck… your jaw… let your tongue rest.",
+     10
+    ],
+    [
+     "s3j",
+     "Relax the tiny muscles around your eyes… smooth your forehead.",
+     10
+    ],
+    [
+     "s3k",
+     "Your whole body is heavy… warm… and safe.",
+     40
+    ]
+   ]
+  },
+  {
+   "title": "Letting Go of the Day",
+   "lines": [
+    [
+     "s4a",
+     "Whatever happened today… let it be complete.",
+     8
+    ],
+    [
+     "s4b",
+     "Anything left undone can wait until tomorrow.",
+     8
+    ],
+    [
+     "s4c",
+     "Imagine placing each thought on a leaf… and watching it drift gently down a quiet stream.",
+     15
+    ],
+    [
+     "s4d",
+     "There's nothing to hold on to now.",
+     30
+    ]
+   ]
+  },
+  {
+   "title": "Seeing Your Desired Life",
+   "lines": [
+    [
+     "s5a",
+     "Now, in this calm and open space… bring to mind the life you are creating.",
+     10
+    ],
+    [
+     "s5b",
+     "Imagine it as if it's already here.",
+     8
+    ],
+    [
+     "s5c",
+     "See where you are… who is with you… what you're doing.",
+     15
+    ],
+    [
+     "s5d",
+     "Notice the small details… the colours… the sounds… the light.",
+     15
+    ],
+    [
+     "s5e",
+     "And feel what it's like to live this life… the ease… the gratitude… the quiet joy.",
+     15
+    ],
+    [
+     "s5f",
+     "Let that feeling fill your chest… and spread through your whole body.",
+     20
+    ],
+    [
+     "s5g",
+     "Hold it gently… as something already on its way to you.",
+     45
+    ]
+   ]
+  },
+  {
+   "title": "Abundance Affirmations",
+   "lines": [
+    [
+     "s6a",
+     "Repeat these words silently… or simply let them wash over you.",
+     6
+    ],
+    [
+     "s6b",
+     "I am open to receiving all the abundance that life has for me.",
+     12
+    ],
+    [
+     "s6c",
+     "Money flows to me easily… from expected and unexpected places.",
+     12
+    ],
+    [
+     "s6d",
+     "I welcome prosperity… and I use it wisely and generously.",
+     12
+    ],
+    [
+     "s6e",
+     "My body is strong, healthy and full of energy.",
+     12
+    ],
+    [
+     "s6f",
+     "With every breath, my body rests and renews itself.",
+     12
+    ],
+    [
+     "s6g",
+     "I attract kind, inspiring people into my life.",
+     12
+    ],
+    [
+     "s6h",
+     "My relationships are rich with trust and support.",
+     12
+    ],
+    [
+     "s6i",
+     "I am loved… and I love freely.",
+     12
+    ],
+    [
+     "s6j",
+     "Love surrounds me… and flows through me.",
+     12
+    ],
+    [
+     "s6k",
+     "I am grateful for the abundance that is already mine… and for all that is on its way.",
+     12
+    ],
+    [
+     "s6l",
+     "I am calm. I am safe. I am enough.",
+     20
+    ],
+    [
+     "s6m",
+     "Let these words settle into the deepest part of your mind… as you drift towards sleep.",
+     30
+    ]
+   ]
+  },
+  {
+   "title": "Drifting into Sleep",
+   "lines": [
+    [
+     "s7a",
+     "Now let go of the words… let go of the pictures.",
+     10
+    ],
+    [
+     "s7b",
+     "Your only task now is to rest.",
+     10
+    ],
+    [
+     "s7c",
+     "Let sleep come to you… easily and naturally.",
+     15
+    ],
+    [
+     "s7d",
+     "Sleep well.",
+     0
+    ]
+   ]
+  }
  ],
  "tail_seconds": 300
 }
