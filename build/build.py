@@ -149,7 +149,7 @@ def build():
     split = int((OPENING_SPLIT + 3.0 * len(OPENING_BREATH_PAUSES)) * SR)
 
     s.section("Preparation", "Arriving, breathing, chanting")
-    s.phase("voice", "Settling in", lambda: (s.add(opening[:split]), s.add(silence(1.5))))
+    s.phase("voice", "Settling in", lambda: (s.add(opening[:split]), s.add(silence(3.5))))
     def prep_chant():
         s.add(load(os.path.join(CLIPS, "chant_prep.m4a"), normalize_lufs=-21.0))
         s.timer_end = s.t
