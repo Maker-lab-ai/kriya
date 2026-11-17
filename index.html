@@ -164,6 +164,7 @@ function update() {
     timeTxt = fmt(left);
     frac = Math.min(1, Math.max(0, (t - ph.start) / total));
     phaseTxt = ph.label;
+    (ph.cues || []).forEach(c => { if (t >= c.at) phaseTxt = c.label; });
     if (ph.kind === 'om') {
       const cyc = T.om.len + T.om.gap;
       const k = Math.min(T.om.count, Math.floor((t - ph.start) / cyc) + 1);

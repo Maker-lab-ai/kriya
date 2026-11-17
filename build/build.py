@@ -71,6 +71,9 @@ class Session:
         ph = {"kind": kind, "label": label, "start": round(start, 2), "end": round(self.t, 2)}
         if self.timer_end is not None:
             ph["timerEnd"] = round(self.timer_end, 2)   # countdown target (excludes bell ring-out)
+        if getattr(self, "cues", None):
+            ph["cues"] = self.cues                       # label changes within a phase
+            self.cues = None
         self.sections[-1]["phases"].append(ph)
 
     def render(self):
@@ -167,6 +170,9 @@ def build():
     s.phase("voice", "Guided round", guided)
     def rest_of_bandha():
         s.mix_at(sec_start + 240, CHIME)          # halfway through the 8 minutes
+        chant_at = sec_start + 360                # chanting over the last 2 minutes
+        s.mix_at(chant_at, load(os.path.join(CLIPS, "chant.m4a"), normalize_lufs=-21.0))
+        s.cues = [{"at": round(chant_at, 2), "label": "Chanting"}]
         s.add(silence(sec_start + 480 - s.t))
         s.timer_end = s.t
         s.mix_at(s.t, BELL)

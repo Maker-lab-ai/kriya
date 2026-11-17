@@ -156,7 +156,13 @@
      "label": "Eyebrow centre",
      "start": 1610.57,
      "end": 2044.25,
-     "timerEnd": 2040.25
+     "timerEnd": 2040.25,
+     "cues": [
+      {
+       "at": 1920.25,
+       "label": "Chanting"
+      }
+     ]
     }
    ]
   },

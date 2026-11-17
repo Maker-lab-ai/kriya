@@ -11,7 +11,7 @@ A guided Kriya meditation timer for your phone. The full session is one audio tr
 4. Circular Breathing – 8:00 (chime at halfway)
 5. Om Chanting – 21 × your recorded Om (~11.5 s) + 2 s gap
 6. Flutter Breath – 3:00
-7. Bandha Locks – one guided round, then eyebrow centre; 8:00 total (chime at halfway)
+7. Bandha Locks – one guided round, then eyebrow centre; chanting over the last 2:00; 8:00 total (chime at halfway)
 8. Integration – 2:00 silence
 9. Closing
 
