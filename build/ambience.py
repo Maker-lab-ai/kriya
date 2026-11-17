@@ -62,22 +62,31 @@ def waves(seconds, seed=2):
     return a / np.sqrt(np.mean(a ** 2)) * 0.06
 
 def thunderstorm(seconds, seed=3):
-    """Steady heavier rain with soft, distant rolls of thunder every 25-70 s (no sharp cracks)."""
-    r = rain(seconds, seed=seed + 10) * 1.25
+    """A proper storm: heavier, deeper downpour, slow wind gusts, and rolling thunder every 15-40 s.
+    The thunder sits in the 60-700 Hz range so phone speakers can actually play it; no sharp cracks."""
     rng = np.random.default_rng(seed)
-    n = len(r)
-    out = r.copy()
-    t = rng.uniform(15, 35)
-    while t < seconds - 15:
-        L = int(rng.uniform(6, 12) * SR)
+    def seg(n, rng):
+        t = np.arange(n) / SR
+        pour = _filtered_noise(n, rng, lo=150, hi=3500) * 0.7            # heavier, lower-pitched rain
+        drum = _filtered_noise(n, rng, lo=60, hi=500) * 0.45             # rain drumming on the roof
+        gust = 1 + 0.45 * np.sin(2 * np.pi * t / rng.uniform(9, 16) + rng.uniform(0, 6)) ** 2
+        wind = _filtered_noise(n, rng, lo=200, hi=900) * 0.25 * gust
+        return (pour + drum) * (1 + 0.25 * np.sin(2 * np.pi * t / rng.uniform(11, 19))) + wind
+    bed = _chunks(seg, seconds, seed + 7)
+    bed = bed / np.sqrt(np.mean(bed ** 2)) * 0.06
+    n = len(bed); out = bed.copy()
+    t = rng.uniform(6, 14)
+    while t < seconds - 10:
+        L = min(int(rng.uniform(8, 15) * SR), n - int(t * SR))
         i = int(t * SR)
-        L = min(L, n - i)
-        rum = _filtered_noise(L, rng, lo=25, hi=160)
+        low = _filtered_noise(L, rng, lo=40, hi=220)
+        mid = _filtered_noise(L, rng, lo=120, hi=700)
         k = np.arange(L) / SR
-        att = rng.uniform(0.6, 1.5)
-        env = np.minimum(1, k / att) ** 2 * np.exp(-np.maximum(0, k - att) / rng.uniform(2.0, 3.5))
-        env *= 1 + 0.35 * np.sin(2 * np.pi * rng.uniform(0.3, 0.8) * k)   # rolling
-        rum = rum / (np.sqrt(np.mean(rum ** 2)) + 1e-9) * 0.09 * rng.uniform(0.6, 1.0)
-        out[i:i + L] += rum * env
-        t += rng.uniform(25, 70)
+        att = rng.uniform(0.4, 1.0)
+        env = np.minimum(1, k / att) ** 1.5 * np.exp(-np.maximum(0, k - att) / rng.uniform(2.5, 4.5))
+        # several rolls inside one peal, like thunder travelling across the sky
+        rolls = 1 + 0.6 * np.abs(np.sin(2 * np.pi * rng.uniform(0.25, 0.6) * k + rng.uniform(0, 3)))
+        peal = (low / np.sqrt(np.mean(low ** 2)) + 0.8 * mid / np.sqrt(np.mean(mid ** 2))) * env * rolls
+        out[i:i + L] += peal * 0.11 * rng.uniform(0.7, 1.0)
+        t += rng.uniform(15, 40)
     return out
