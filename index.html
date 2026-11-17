@@ -107,9 +107,10 @@
 
   <ol class="steps" id="steps"><li class="loading">Loading…</li></ol>
   <div class="note">Audio keeps playing with the screen locked. Tap a step to jump to it.</div>
+  <div class="note" id="version"></div>
 </main>
 
-<audio id="audio" src="audio/session.mp3" preload="auto"></audio>
+<audio id="audio" preload="auto"></audio>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -229,8 +230,10 @@ if ('mediaSession' in navigator) {
 // smooth countdown while playing (timeupdate only fires ~4x/sec)
 (function loop() { if (!audio.paused) update(); requestAnimationFrame(loop); })();
 
-fetch('timeline.json').then(r => r.json()).then(tl => {
+fetch('timeline.json', { cache: 'no-cache' }).then(r => r.json()).then(tl => {
   T = tl;
+  audio.src = T.audio || 'audio/session.mp3';
+  $('version').textContent = T.built ? `Version ${T.built}` : '';
   renderSteps();
   let saved = 0;
   try { saved = parseFloat(localStorage.getItem('kriya-pos') || '0'); } catch (e) {}
@@ -238,7 +241,16 @@ fetch('timeline.json').then(r => r.json()).then(tl => {
   update();
 });
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => reg.update());
+  // when a new version takes over, reload (unless a session is playing)
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloaded) return;
+    if (audio.paused && audio.currentTime < 1) { reloaded = true; location.reload(); }
+  });
+  navigator.serviceWorker.ready.then(r => r.active && r.active.postMessage('cache-audio'));
+}
 </script>
 </body>
 </html>

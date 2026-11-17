@@ -22,4 +22,4 @@ Voice clips live in `build/clips/` (ElevenLabs). To add or replace the Om record
 cd build && python3 build.py
 ```
 
-This rewrites `audio/session.mp3` and `timeline.json`. Bump `VERSION` in `sw.js` so installed copies pick up the change.
+This rewrites `audio/session.mp3` and `timeline.json` (which carries a content-hashed audio URL), so installed copies pick up the change automatically.

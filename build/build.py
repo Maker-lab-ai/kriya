@@ -201,7 +201,11 @@ def build():
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-",
                     "-c:a", "libmp3lame", "-b:a", "64k", out_mp3], input=audio.tobytes(), check=True)
 
-    timeline = {"duration": round(len(audio) / SR, 2), "om": {"count": OM_COUNT, "len": OM_LEN, "gap": OM_GAP,
+    import hashlib, datetime
+    digest = hashlib.md5(open(out_mp3, "rb").read()).hexdigest()[:10]
+    timeline = {"audio": f"audio/session.mp3?v={digest}",
+                "built": datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%d %b %Y, %H:%M"),
+                "duration": round(len(audio) / SR, 2), "om": {"count": OM_COUNT, "len": OM_LEN, "gap": OM_GAP,
                 "recorded": has_om}, "sections": s.sections}
     with open(os.path.join(ROOT, "timeline.json"), "w") as f:
         json.dump(timeline, f, indent=1)
