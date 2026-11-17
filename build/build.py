@@ -100,21 +100,23 @@ def timed(s, seconds, halfway=False, end_bell=True):
 OM_COUNT, OM_LEN, OM_GAP = 21, 10.0, 2.0
 
 def om_track():
+    """Returns (track, recorded, om_len). Uses the natural length of the recorded Om."""
+    global OM_LEN
     om_files = [f for f in os.listdir(CLIPS) if f.startswith("om.")]
     if not om_files:
         print("  (no clips/om.* found - Om slots are silent)")
         return silence(OM_COUNT * (OM_LEN + OM_GAP)), False
-    om = load(os.path.join(CLIPS, om_files[0]))
-    # trim leading/trailing quiet, then fit to OM_LEN with a soft fade-out
+    om = load(os.path.join(CLIPS, om_files[0]), normalize_lufs=-20.0)
     thr = 0.02 * np.abs(om).max()
     idx = np.where(np.abs(om) > thr)[0]
-    om = om[idx[0]: idx[-1]]
-    n = int(OM_LEN * SR)
-    om = om[:n] if len(om) >= n else np.concatenate([om, np.zeros(n - len(om), np.float32)])
-    fade = int(0.8 * SR)
-    om[-fade:] *= np.linspace(1, 0, fade)
-    om[:int(0.05 * SR)] *= np.linspace(0, 1, int(0.05 * SR))
-    one = np.concatenate([om, silence(OM_GAP)])
+    om = om[max(0, idx[0] - int(0.05 * SR)): idx[-1] + int(0.15 * SR)]
+    fi, fo = int(0.04 * SR), int(0.6 * SR)
+    om[:fi] *= np.linspace(0, 1, fi)
+    om[-fo:] *= np.linspace(1, 0, fo)
+    OM_LEN = round(len(om) / SR, 3)
+    pad = int(round((OM_LEN + OM_GAP) * SR)) - len(om)
+    one = np.concatenate([om, np.zeros(pad, np.float32)])
+    print(f"  Om recording: {OM_LEN:.2f}s x {OM_COUNT}")
     return np.tile(one, OM_COUNT), True
 
 # ---------- the session ----------

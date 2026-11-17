@@ -1,5 +1,5 @@
 // Offline cache for the Kriya timer. Bump VERSION whenever any file changes.
-const VERSION = 'kriya-v1';
+const VERSION = 'kriya-v2';
 const CORE = ['./', 'index.html', 'timeline.json', 'manifest.webmanifest',
   'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 const AUDIO = 'audio/session.mp3';

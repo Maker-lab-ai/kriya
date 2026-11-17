@@ -1,10 +1,10 @@
 {
- "duration": 2176.14,
+ "duration": 2207.43,
  "om": {
   "count": 21,
-  "len": 10.0,
+  "len": 11.49,
   "gap": 2.0,
-  "recorded": false
+  "recorded": true
  },
  "sections": [
   {
@@ -115,87 +115,87 @@
      "kind": "om",
      "label": "Om",
      "start": 1079.04,
-     "end": 1333.04,
-     "timerEnd": 1331.04
+     "end": 1364.33,
+     "timerEnd": 1362.33
     }
    ]
   },
   {
    "title": "Flutter Breath",
    "subtitle": "Light and quick",
-   "start": 1333.04,
+   "start": 1364.33,
    "phases": [
     {
      "kind": "voice",
      "label": "Guidance",
-     "start": 1333.04,
-     "end": 1344.96
+     "start": 1364.33,
+     "end": 1376.25
     },
     {
      "kind": "practice",
      "label": "Flutter breath",
-     "start": 1344.96,
-     "end": 1528.96,
-     "timerEnd": 1524.96
+     "start": 1376.25,
+     "end": 1560.25,
+     "timerEnd": 1556.25
     }
    ]
   },
   {
    "title": "Bandha Locks",
    "subtitle": "One guided round, then rest your attention at the brow",
-   "start": 1528.96,
+   "start": 1560.25,
    "phases": [
     {
      "kind": "voice",
      "label": "Guided round",
-     "start": 1528.96,
-     "end": 1579.28
+     "start": 1560.25,
+     "end": 1610.57
     },
     {
      "kind": "practice",
      "label": "Eyebrow centre",
-     "start": 1579.28,
-     "end": 2012.96,
-     "timerEnd": 2008.96
+     "start": 1610.57,
+     "end": 2044.25,
+     "timerEnd": 2040.25
     }
    ]
   },
   {
    "title": "Integration",
    "subtitle": "Silent stillness",
-   "start": 2012.96,
+   "start": 2044.25,
    "phases": [
     {
      "kind": "voice",
      "label": "Guidance",
-     "start": 2012.96,
-     "end": 2023.2
+     "start": 2044.25,
+     "end": 2054.49
     },
     {
      "kind": "practice",
      "label": "Stillness",
-     "start": 2023.2,
-     "end": 2146.2,
-     "timerEnd": 2143.2
+     "start": 2054.49,
+     "end": 2177.49,
+     "timerEnd": 2174.49
     }
    ]
   },
   {
    "title": "Closing",
    "subtitle": "",
-   "start": 2146.2,
+   "start": 2177.49,
    "phases": [
     {
      "kind": "voice",
      "label": "Closing",
-     "start": 2146.2,
-     "end": 2159.64
+     "start": 2177.49,
+     "end": 2190.93
     },
     {
      "kind": "end",
      "label": "Complete",
-     "start": 2159.64,
-     "end": 2176.14
+     "start": 2190.93,
+     "end": 2207.43
     }
    ]
   }
