@@ -100,6 +100,9 @@ def clip_with_pauses(name, at, extra):
 # "relax even more" in the opening clip: 3 s more time for each breath.
 OPENING_BREATH_PAUSES = [8.93, 12.88, 15.45, 19.35]
 OPENING_SPLIT = 26.93   # mid-pause between "...in this moment." and "We'll begin with butterfly pose"
+# Cat cow: 2 s more after each movement ("lift your gaze", "right knee to your chin",
+# "right leg ... towards the sky", "left knee to your chin", "left leg to the sky", "left leg down").
+CATCOW_MOVE_PAUSES = [12.745, 17.30, 21.58, 26.365, 29.805, 32.59]
 
 def timed(s, seconds, halfway=False, end_bell=True):
     """A practice period: bell rings at the start, optional halfway chime, bell at the end."""
@@ -173,7 +176,7 @@ def build():
     s.phase("practice", "Right leg", lambda: (s.add(silence(118.5)), setattr(s, "timer_end", s.t), s.mix_at(s.t, BELL), s.add(silence(4.0))))
 
     s.section("Cat Cow", "With knee-to-chin and leg extensions")
-    s.phase("voice", "Guidance", lambda: s.add(clip("c04_catcow.mp3")))
+    s.phase("voice", "Guidance", lambda: s.add(clip_with_pauses("c04_catcow.mp3", CATCOW_MOVE_PAUSES, 2.0)))
     s.phase("practice", "Cat cow", lambda: timed(s, 90))
 
     s.section("Circular Breathing", "Continuous breath, no pauses")
