@@ -74,7 +74,7 @@ def thunderstorm(seconds, seed=3):
         return (pour + drum) * (1 + 0.25 * np.sin(2 * np.pi * t / rng.uniform(11, 19))) + wind
     bed = _chunks(seg, seconds, seed + 7)
     bed = bed / np.sqrt(np.mean(bed ** 2)) * 0.06
-    n = len(bed); out = bed.copy()
+    n = len(bed); out = bed * 0.4          # rain under the storm: 40% (about -8 dB)
     t = rng.uniform(6, 14)
     while t < seconds - 10:
         L = min(int(rng.uniform(8, 15) * SR), n - int(t * SR))
@@ -87,6 +87,6 @@ def thunderstorm(seconds, seed=3):
         # several rolls inside one peal, like thunder travelling across the sky
         rolls = 1 + 0.6 * np.abs(np.sin(2 * np.pi * rng.uniform(0.25, 0.6) * k + rng.uniform(0, 3)))
         peal = (low / np.sqrt(np.mean(low ** 2)) + 0.8 * mid / np.sqrt(np.mean(mid ** 2))) * env * rolls
-        out[i:i + L] += peal * 0.11 * rng.uniform(0.7, 1.0)
+        out[i:i + L] += peal * 0.33 * rng.uniform(0.7, 1.0)   # thunder 3x louder (about +10 dB)
         t += rng.uniform(15, 40)
     return out
