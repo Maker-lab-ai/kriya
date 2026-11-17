@@ -1,5 +1,5 @@
 {
- "built": "17 Nov 2026, 20:16",
+ "built": "17 Nov 2026, 20:30",
  "meditations": [
   {
    "id": "kriya",
@@ -438,6 +438,10 @@
      "name": "Rain"
     },
     {
+     "id": "thunderstorm",
+     "name": "Thunderstorm"
+    },
+    {
      "id": "waves",
      "name": "Waves"
     },
@@ -452,6 +456,7 @@
      "name": "Proctor",
      "audio": {
       "rain": "audio/sleep-proctor-rain.mp3?v=c8266a403d",
+      "thunderstorm": "audio/sleep-proctor-thunderstorm.mp3?v=abf7acaf9e",
       "waves": "audio/sleep-proctor-waves.mp3?v=8791704066",
       "silence": "audio/sleep-proctor-silence.mp3?v=c53a4d5e29"
      },

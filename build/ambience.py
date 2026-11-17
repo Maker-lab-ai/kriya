@@ -60,3 +60,24 @@ def waves(seconds, seed=2):
         return wash * env + foam * env ** 2
     a = _chunks(seg, seconds, seed)
     return a / np.sqrt(np.mean(a ** 2)) * 0.06
+
+def thunderstorm(seconds, seed=3):
+    """Steady heavier rain with soft, distant rolls of thunder every 25-70 s (no sharp cracks)."""
+    r = rain(seconds, seed=seed + 10) * 1.25
+    rng = np.random.default_rng(seed)
+    n = len(r)
+    out = r.copy()
+    t = rng.uniform(15, 35)
+    while t < seconds - 15:
+        L = int(rng.uniform(6, 12) * SR)
+        i = int(t * SR)
+        L = min(L, n - i)
+        rum = _filtered_noise(L, rng, lo=25, hi=160)
+        k = np.arange(L) / SR
+        att = rng.uniform(0.6, 1.5)
+        env = np.minimum(1, k / att) ** 2 * np.exp(-np.maximum(0, k - att) / rng.uniform(2.0, 3.5))
+        env *= 1 + 0.35 * np.sin(2 * np.pi * rng.uniform(0.3, 0.8) * k)   # rolling
+        rum = rum / (np.sqrt(np.mean(rum ** 2)) + 1e-9) * 0.09 * rng.uniform(0.6, 1.0)
+        out[i:i + L] += rum * env
+        t += rng.uniform(25, 70)
+    return out

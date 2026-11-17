@@ -298,7 +298,7 @@ def ambience_bed(kind, n, voice_end):
     import ambience
     if kind == "silence":
         return np.zeros(n, np.float32)
-    bed = getattr(ambience, kind)(n / SR + 1)[:n].astype(np.float32) * (10 ** ({"rain": -6, "waves": -9}[kind] / 20)) * 0.1   # 10% of the original level (Bex, 17 Nov)
+    bed = getattr(ambience, kind)(n / SR + 1)[:n].astype(np.float32) * (10 ** ({"rain": -6, "waves": -9, "thunderstorm": -6}[kind] / 20)) * 0.1   # 10% of the original level (Bex, 17 Nov)
     fi = int(6 * SR); bed[:fi] *= np.linspace(0, 1, fi) ** 2
     # hold through the voice and the first part of the tail, then fade slowly to silence
     fo_start = int((voice_end + 120) * SR)
@@ -308,7 +308,7 @@ def ambience_bed(kind, n, voice_end):
     return bed
 
 SLEEP_VOICES = [{"id": "proctor", "name": "Proctor", "folder": "sleep-proctor"}]
-SLEEP_AMBIENTS = [{"id": "rain", "name": "Rain"}, {"id": "waves", "name": "Waves"}, {"id": "silence", "name": "Silence"}]
+SLEEP_AMBIENTS = [{"id": "rain", "name": "Rain"}, {"id": "thunderstorm", "name": "Thunderstorm"}, {"id": "waves", "name": "Waves"}, {"id": "silence", "name": "Silence"}]
 
 def encode(audio, rel):
     import hashlib
