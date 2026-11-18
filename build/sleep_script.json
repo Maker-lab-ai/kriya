@@ -62,7 +62,7 @@
     [
      "s2h",
      "With each breath out, you sink a little deeper into rest.",
-     12
+     15
     ]
    ]
   },
@@ -122,7 +122,7 @@
     [
      "s3k",
      "Your whole body is heavy… warm… and safe.",
-     15
+     20
     ]
    ]
   },
@@ -147,7 +147,7 @@
     [
      "s4d",
      "There's nothing to hold on to now.",
-     12
+     15
     ]
    ]
   },
@@ -182,12 +182,12 @@
     [
      "s5f",
      "Let that feeling fill your chest… and spread through your whole body.",
-     12
+     10
     ],
     [
      "s5g",
      "Hold it gently… as something already on its way to you.",
-     18
+     22.5
     ]
    ]
   },
@@ -252,12 +252,12 @@
     [
      "s6l",
      "I am calm. I am safe. I am enough.",
-     12
+     10
     ],
     [
      "s6m",
      "Let these words settle into the deepest part of your mind… as you drift towards sleep.",
-     12
+     15
     ]
    ]
   },

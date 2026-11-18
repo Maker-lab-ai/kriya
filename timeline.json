@@ -1,5 +1,5 @@
 {
- "built": "18 Nov 2026, 11:16",
+ "built": "18 Nov 2026, 11:19",
  "meditations": [
   {
    "id": "kriya",
@@ -455,12 +455,12 @@
      "id": "proctor",
      "name": "Proctor",
      "audio": {
-      "rain": "audio/sleep-proctor-rain.mp3?v=3888010271",
-      "thunderstorm": "audio/sleep-proctor-thunderstorm.mp3?v=9aa2e28d9a",
-      "waves": "audio/sleep-proctor-waves.mp3?v=a466d8a413",
-      "silence": "audio/sleep-proctor-silence.mp3?v=f9d38d4f9d"
+      "rain": "audio/sleep-proctor-rain.mp3?v=bd7e626176",
+      "thunderstorm": "audio/sleep-proctor-thunderstorm.mp3?v=647d130b17",
+      "waves": "audio/sleep-proctor-waves.mp3?v=bb9d21e263",
+      "silence": "audio/sleep-proctor-silence.mp3?v=60872d9275"
      },
-     "duration": 1078.83,
+     "duration": 1093.33,
      "sections": [
       {
        "title": "Settling In",
@@ -484,78 +484,78 @@
          "kind": "sleep",
          "label": "Slowing the Breath",
          "start": 65.13,
-         "end": 149.18
+         "end": 152.18
         }
        ]
       },
       {
        "title": "Relaxing the Body",
        "subtitle": "",
-       "start": 149.18,
+       "start": 152.18,
        "phases": [
         {
          "kind": "sleep",
          "label": "Relaxing the Body",
-         "start": 149.18,
-         "end": 321.9
+         "start": 152.18,
+         "end": 329.9
         }
        ]
       },
       {
        "title": "Letting Go of the Day",
        "subtitle": "",
-       "start": 321.9,
+       "start": 329.9,
        "phases": [
         {
          "kind": "sleep",
          "label": "Letting Go of the Day",
-         "start": 321.9,
-         "end": 382.16
+         "start": 329.9,
+         "end": 393.16
         }
        ]
       },
       {
        "title": "Seeing Your Desired Life",
        "subtitle": "",
-       "start": 382.16,
+       "start": 393.16,
        "phases": [
         {
          "kind": "sleep",
          "label": "Seeing Your Desired Life",
-         "start": 382.16,
-         "end": 514.02
+         "start": 393.16,
+         "end": 527.52
         }
        ]
       },
       {
        "title": "Abundance Affirmations",
        "subtitle": "",
-       "start": 514.02,
+       "start": 527.52,
        "phases": [
         {
          "kind": "sleep",
          "label": "Abundance Affirmations",
-         "start": 514.02,
-         "end": 730.06
+         "start": 527.52,
+         "end": 744.56
         }
        ]
       },
       {
        "title": "Drifting into Sleep",
        "subtitle": "",
-       "start": 730.06,
+       "start": 744.56,
        "phases": [
         {
          "kind": "sleep",
          "label": "Drifting into Sleep",
-         "start": 730.06,
-         "end": 778.83
+         "start": 744.56,
+         "end": 793.33
         },
         {
          "kind": "fade",
          "label": "Fading out",
-         "start": 778.83,
-         "end": 1078.83
+         "start": 793.33,
+         "end": 1093.33
         }
        ]
       }
